@@ -1,0 +1,29 @@
+.layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* width */
+div.MuiBox-root.css-pcd1ze::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+div.MuiBox-root.css-pcd1ze::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 4px;
+  margin-top: 6rem;
+  margin-bottom: 5rem;
+}
+ 
+/* Handle */
+div.MuiBox-root.css-pcd1ze::-webkit-scrollbar-thumb {
+  background: #506CF0; 
+border-radius: 4px;
+}
+
+/* Handle on hover */
+div.MuiBox-root.css-pcd1ze::-webkit-scrollbar-thumb:hover {
+  background: #A7C0CD; 
+}
