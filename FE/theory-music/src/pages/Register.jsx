@@ -277,42 +277,6 @@ function Register() {
                       Sign Up
                     </Button>
                   </Form>
-                  <Divider
-                    sx={{
-                      color: "#A7C0CD",
-                      fontSize: "1.125rem",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      lineHeight: "1rem",
-                      letterSpacing: "0.09375rem",
-                      textTransform: "capitalize",
-                      my: 2,
-                    }}
-                  >
-                    or
-                  </Divider>
-                  <Button
-                    startIcon={
-                      <GoogleIcon
-                        sx={{ fontSize: "large", color: "#506CF0" }}
-                      />
-                    }
-                    variant="outlined"
-                    size="large"
-                    sx={{
-                      fontSize: "18px",
-                      lineHeight: "16px",
-                      letterSpacing: "1px",
-                      color: "#313131",
-                      my: 1.5,
-                      py: "1rem",
-                      textTransform: "capitalize",
-                      border: 1.2,
-                      borderColor: "#506CF0",
-                    }}
-                  >
-                    Login with Google
-                  </Button>
                   <Typography
                     sx={{
                       color: "#313131",

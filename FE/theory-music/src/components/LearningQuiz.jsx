@@ -72,7 +72,7 @@ export default function LearningQuiz(props) {
         setError(null);
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setError(err.message);
         setDataQuiz(null);
       })

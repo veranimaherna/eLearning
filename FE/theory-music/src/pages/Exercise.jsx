@@ -73,7 +73,7 @@ const Exercise = () => {
 
         })
         .catch((err) => {
-          console.log(err.message);
+          
           setError(err.message);
           setDataUserExercise(null);
         })
@@ -102,7 +102,7 @@ const Exercise = () => {
           setError(null);
         })
         .catch((err) => {
-          console.log(err.message);
+          
           setError(err.message);
           setDataExercise(null);
         })

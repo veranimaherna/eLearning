@@ -53,7 +53,7 @@ const LearningTopic = () => {
           setError(null);
         })
         .catch((err) => {
-          console.log(err.message);
+          
           setError(err.message);
           setDataLearning(null);
         })
@@ -89,7 +89,7 @@ const LearningTopic = () => {
           setError(null);
         })
         .catch((err) => {
-          console.log(err.message);
+          
           setError(err.message);
           setDataTopic(null);
         })

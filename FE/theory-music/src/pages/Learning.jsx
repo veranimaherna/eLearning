@@ -63,7 +63,7 @@ const Learning = () => {
           setError(null);
         })
         .catch((err) => {
-          console.log(err.message);
+          
           setError(err.message);
           setData(null);
         })

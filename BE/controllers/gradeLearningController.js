@@ -10,7 +10,7 @@ exports.getGradeLearning = async (req, res) => {
       .json({ message: "List of Grade Learning", data: listGradeLearning });
   } catch (error) {
     res.status(400).json({ message: "Failed to Get Data" });
-    console.log(error);
+    
   }
 };
 

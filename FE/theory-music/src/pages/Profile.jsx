@@ -180,7 +180,7 @@ const Profile = () => {
         setError(null);
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setError(err.message);
         setDataUser(null);
       })
@@ -276,43 +276,6 @@ const Profile = () => {
                         disabled={true}
                       />
                     )}
-                  </td>
-                </tr>
-                  <Divider>Enter your current password to proceed with the changes</Divider>
-                <tr style={{ height: "140px" }}>
-                  <td style={{ verticalAlign: "middle" }}>
-                    <Typography>Password</Typography>
-                  </td>
-                  <td>
-                    <FormControl variant="outlined" onChange={handleChange}>
-                      <InputLabel htmlFor="outlined-adornment-password">
-                        Password
-                      </InputLabel>
-                      <OutlinedInput
-                        name="password"
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        label="Password"
-                        sx={{ width: "25rem" }}
-                        size="small"
-                      />
-                    </FormControl>
                   </td>
                 </tr>
               </tbody>

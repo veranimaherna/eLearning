@@ -58,7 +58,7 @@ const ExerciseGrade1 = () => {
         setError(null);
       })
       .catch((err) => {
-        console.log(err.message);
+        
         setError(err.message);
         setData(null);
       })
