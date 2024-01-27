@@ -132,7 +132,7 @@ const Home = () => {
 
   return (
     <ThemeProvider theme={themeStyled}>
-      <Box sx={{ marginTop: 20 }}>
+      <Box sx={{ paddingTop: 20 }}>
         {/* HERO */}
         <Box sx={{ position: "relative" }}>
           <Typography
@@ -215,7 +215,7 @@ const Home = () => {
             swipe={true}
             indicators={true}
           >
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box sx={{ display: "flex", justifyContent: "center" }} className="boxSlider">
               <img src={carouselPict1} alt="Carousel Pict 1" square={false} />
               <Paper
                 elevation={0}
@@ -257,7 +257,7 @@ const Home = () => {
                 </Typography>
               </Paper>
             </Box>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box sx={{ display: "flex", justifyContent: "center" }} className="boxSlider">
               <Paper
                 elevation={0}
                 sx={{ marginRight: "3.75rem", bgcolor: "#EDF4F7" }}

@@ -67,7 +67,6 @@ export default function LearningQuiz(props) {
         return response.json();
       })
       .then((actualData) => {
-        console.log(actualData);
         setDataQuiz(actualData);
         setError(null);
       })
@@ -92,16 +91,13 @@ export default function LearningQuiz(props) {
     }
 
     if (quizAnswer === selectedOption[activeStep]) {
-      console.log("jawaban benar");
       setValidationAnswer("Your answer is correct!");
       setWrongAnswer(false);
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else if (quizAnswer !== selectedOption[activeStep]) {
-        console.log("jawaban salah");
         setValidationAnswer("Sorry, it's still wrong!");
         setWrongAnswer(true);
       } else {
-          console.log("belum pilih jawaban");
           setValidationAnswer("Please select your answer.");
           setWrongAnswer(true);
         }
@@ -165,8 +161,6 @@ export default function LearningQuiz(props) {
     (questionQuiz) => questionQuiz.TopicId === parseInt(topicId)
   );
   // const dataQuizTest = arrayDataQuizQuestionFinal[1].id
-  console.log(arrayDataQuizQuestion, "quizQuestionAndOptionsButton");
-  console.log(arrayDataQuizQuestionFinal, "arrayDataQuizQuestionFinal");
   // console.log(arrayDataQuizQuestionFinal[activeStep]?.id, "arrayDataQuizQuestionFinal0");
   // console.log(dataQuizTest, "dataQuizTest");
   const quizQuestionAndOptionsButton = () => {
@@ -175,7 +169,6 @@ export default function LearningQuiz(props) {
         {activeStep < arrayDataQuizQuestion ? ( loading ? <Alert severity="info">A moment please...</Alert> :
           <>
             {/* {console.log(data.data[activeStep].id, "test id")} */}
-            {console.log(arrayDataQuizQuestionFinal[activeStep]?.id, "test")}
             {/* <Suspense
               fallback={
                 <Skeleton 

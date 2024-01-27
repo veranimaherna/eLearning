@@ -85,12 +85,10 @@ const ChangePassword = () => {
         switch (event.target.name) {
             case "old_password":
                 setOld_password(event.target.value);
-                console.log(old_password, "old_password");
                 setIsChange(true)
                 break;
             case "new_password":
                 setNew_password(event.target.value);
-                console.log(new_password, "new_password");
                 setIsChange(true)
                 break;
         }
@@ -111,7 +109,6 @@ const ChangePassword = () => {
             body: JSON.stringify(newData),
         })
             .then((response) => {
-                console.log(response, "resp");
                 return response.json();
             })
             .then((json) => {
@@ -154,7 +151,6 @@ const ChangePassword = () => {
                 return response.json();
             })
             .then((actualData) => {
-                console.log(actualData);
                 setDataUser(actualData);
                 setError(null);
             })

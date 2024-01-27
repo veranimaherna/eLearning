@@ -53,7 +53,6 @@ const ExerciseGrade1 = () => {
         return response.json();
       })
       .then((actualData) => {
-        console.log(actualData);
         setData(actualData);
         setError(null);
       })
@@ -135,9 +134,6 @@ const ExerciseGrade1 = () => {
   const arrayDataExerciseQuestion = data?.data?.filter(
     (questionGrade) => questionGrade.grade_exercise === gradeExercise
   );
-  console.log(arrayDataExerciseQuestion, "arrayDataExerciseQuestionReal")
-  console.log(dataExerciseAnswer, "dataExerciseAnswer")
-
 
   const exerciseQuestionAndOptionsButton = () => {
     return (
@@ -209,7 +205,7 @@ const ExerciseGrade1 = () => {
                   ))}
                 </Stack>
               </RadioGroup>
-              {console.log(selectedOption)}
+              {/* {console.log(selectedOption)} */}
             </FormControl>
             <Box
               sx={{
@@ -242,7 +238,7 @@ const ExerciseGrade1 = () => {
                   handleSubmitModal={() => handleSubmitModal()}
                 />
               </Modal>
-              {console.log(userScore, "userScoreFinal")}
+              {/* {console.log(userScore, "userScoreFinal")} */}
             </Box>
           </>
         ) : activeStep === steps.length ? (
@@ -277,20 +273,12 @@ const ExerciseGrade1 = () => {
 
     let score = 0;
     selectedOption.forEach((val, idx) => {
-      console.log(val, "value");
-      console.log(idx, "index");
       if (val === arrayDataExerciseCorrectAnswer[idx]) {
         score = score + 1;
-        console.log("benar");
       }
     });
     setUserScore(score);
-    console.log(
-      arrayDataExerciseCorrectAnswer,
-      "arrayDataExerciseCorrectAnswer"
-    );
-
-    console.log("userScore", score);
+   
     closeModal();
     setShowExerciseScoreComponent(true);
     afterSubmit(score);
@@ -336,11 +324,8 @@ const ExerciseGrade1 = () => {
     )[index]?.exercise_answer;
     const correctOption = data?.data[index]?.ExerciseOptions.filter((option) => (
       option.id.toString() === dataExerciseCorrectAnswer))[0]
-    // console.log(correctOption, "correctOption")
     const correctOptionText = correctOption?.option_text
     const correctOptionImage = correctOption?.option_image
-    // console.log(correctOptionText, "correctOptionText")
-    // console.log(correctOptionImage, "correctOption")
     return <>
       {
         correctOptionText === "testOption" ? (
@@ -360,11 +345,8 @@ const ExerciseGrade1 = () => {
   const exerciseUserAnswer = (index) => {
     const userSelectedOption = data?.data[index]?.ExerciseOptions.filter((option) => (
       option.id.toString() === selectedOption[index]))[0]
-    console.log(userSelectedOption, "userSelectedOption")
     const userSelectedOptionText = userSelectedOption?.option_text
     const userSelectedOptionImage = userSelectedOption?.option_image
-    // console.log(correctOptionText, "correctOptionText")
-    // console.log(correctOptionImage, "correctOption")
     return <>
       {
         userSelectedOptionText === "testOption" ? (
@@ -380,9 +362,6 @@ const ExerciseGrade1 = () => {
       }
     </>
   }
-
-  console.log(selectedOption, "selectedOptionhahah")
-  console.log(exerciseUserAnswer(), "exerciseUserAnswer")
 
   const [wrongAnswer, setWrongAnswer] = useState(true)
 
@@ -402,7 +381,6 @@ const ExerciseGrade1 = () => {
     }
   }
 
-  // console.log(exerciseCorrectAnswer(0), "exerciseAnswerrrrr")
 
   const previewAnswerHandle = () => {
     return <>
@@ -416,7 +394,6 @@ const ExerciseGrade1 = () => {
 
   return (
     <>
-      {/* {console.log(userAnswers, "test")} */}
       <Stack sx={{ my: 15, mx: 4 }}>
         <Box
           sx={{

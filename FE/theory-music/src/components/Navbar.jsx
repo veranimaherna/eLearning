@@ -82,7 +82,7 @@ const Navbar = ({
 
     if (token) {
       setIsLoggedIn(true);
-      console.log("ini token " + token);
+      // console.log("ini token " + token);
       setUserlogin(user);
       setProfileName(userName);
     } else {

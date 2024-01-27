@@ -83,6 +83,7 @@ function Login() {
           gap: 5,
           mb: 10,
         }}
+        className="boxLogin"
       >
         <Box>
           <img src={loginImg} style={{ width: "28rem" }} />
@@ -98,7 +99,6 @@ function Login() {
                 email: value.email,
                 password: value.password,
               };
-              console.log(data);
               fetch(url, {
                 method: "POST",
                 headers: {
@@ -107,7 +107,6 @@ function Login() {
                 body: JSON.stringify(data),
               })
                 .then((response) => {
-                  console.log(response.status);
                   return response.json();
                 })
                 .then((json) => {
@@ -119,43 +118,40 @@ function Login() {
                 });
               setSubmitting(true);
             }}
-
-            // onSubmit={(values) => {
-            //   console.log(values);
-            // }}
           >
             {(formik) => {
               const { errors, touched, isValid, dirty } = formik;
+              const errorClassEmail = errors.email && touched.email ? "input-error" : null
+              const errorClassPassword = errors.password && touched.password
+                ? "input-error"
+                : null
               return (
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  {console.log("vv", isValid)}
+                <Box sx={{ display: "flex", flexDirection: "column" }} className="boxFormLogin">
                   <Typography
-                    sx={{
-                      color: "#313131",
-                      fontFamily: "Roboto",
-                      fontSize: "2.5rem",
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      lineHeight: "normal",
-                      mb: 3,
-                    }}
+                  // sx={{
+                  //   color: "#313131",
+                  //   fontFamily: "Roboto",
+                  //   fontSize: "2.5rem",
+                  //   fontStyle: "normal",
+                  //   fontWeight: 500,
+                  //   lineHeight: "normal",
+                  //   mb: 3,
+                  // }}
                   >
                     Login
                   </Typography>
-                  <Form style={{ display: "flex", flexDirection: "column" }}>
+                  <Form className="formLogin">
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        sx={{ width: "26.375rem", mb: 0.5 }}
+                        // sx={{ width: "26.375rem", mb: 0.5 }}
                         label="Email"
                         variant="outlined"
                         placeholder="Input your email"
                         type="email"
                         name="email"
                         id="email"
-                        className={
-                          errors.email && touched.email ? "input-error" : null
-                        }
+                        className={`input ${errorClassEmail}`}
                         error={touched.email && Boolean(errors.email)}
                         helperText={touched.email && errors.email}
                       />
@@ -169,18 +165,14 @@ function Login() {
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        sx={{ width: "26.375rem", mb: 0.5 }}
+                        // sx={{ width: "26.375rem", mb: 0.5 }}
                         label="Password"
                         placeholder="Input your Password"
                         type={showPassword ? "text" : "password"}
                         variant="outlined"
                         name="password"
                         id="password"
-                        className={
-                          errors.password && touched.password
-                            ? "input-error"
-                            : null
-                        }
+                        className={`input ${errorClassPassword}`}
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="row">

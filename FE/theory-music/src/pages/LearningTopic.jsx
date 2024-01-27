@@ -48,7 +48,6 @@ const LearningTopic = () => {
           return response.json();
         })
         .then((actualData) => {
-          console.log(actualData);
           setDataLearning(actualData);
           setError(null);
         })
@@ -111,25 +110,21 @@ const LearningTopic = () => {
   const arrayDataTopicTitle = dataTopic?.data.topic_title;
   const arrayDataTopicDescription = dataTopic?.data.topic_description;
 
-  console.log("dataTopicNih", dataTopic);
-
   const gradeLearningTopic = dataTopic?.data.GradeLearningId;
-  console.log(topicId);
-  console.log(gradeLearningTopic, "gradeLearningTopic");
 
   const handleTakeQuiz = (event) => {
     event.preventDefault();
     setClickButton("quiz");
   };
 
-  if(!dataLearning) {
-    console.log("verani ada disini")
-    return (
-      <>
-        <p>dwqw</p>
-      </>
-    )
-  }
+  // if(!dataLearning) {
+  //   console.log("verani ada disini")
+  //   return (
+  //     <>
+  //       <p>dwqw</p>
+  //     </>
+  //   )
+  // }
 
   return (
     <>
@@ -194,7 +189,6 @@ const LearningTopic = () => {
               >
                 Topic {topicId}
               </Button>
-              {/* {console.log(clickButton)} */}
             </Box>
             <Box
               sx={
@@ -269,12 +263,6 @@ const LearningTopic = () => {
                   </Button>
                 </Stack>
                 {clickButton == "quiz" ? <LearningQuiz setClickButton= {setClickButton} clickButton={clickButton}/> : <></>}
-                {console.log(arrayDataLearning, "dataLearning")}
-                {console.log(arrayDataTopicTitle, "arrayDataTopicTitle")}
-                {console.log(
-                  arrayDataTopicDescription,
-                  "arrayDataTopicDescription"
-                )}
               </>
             )}
           </Box>

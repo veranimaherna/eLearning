@@ -44,30 +44,24 @@ const Exercise = () => {
           return response.json();
         })
         .then((actualDataUserExercise) => {
-          console.log(actualDataUserExercise);
           setDataUserExercise(actualDataUserExercise);
           setError(null);
 
           const userScoreByGrade1 = actualDataUserExercise?.data?.filter((gradeExercise) => gradeExercise.ExerciseId === 1)
-          console.log(userScoreByGrade1.length, "userScoreByGrade1HOO")
 
           const userLastDataGrade1 = userScoreByGrade1.length > 0 ? userScoreByGrade1[userScoreByGrade1.length - 1] : { exercise_score: "-" }
-
-          console.log(`vm ${userLastDataGrade1.exercise_score}`)
 
           setUserLastScoreGrade1(userLastDataGrade1.exercise_score)
 
           const userScoreByGrade2 = actualDataUserExercise?.data?.filter((gradeExercise) => gradeExercise.ExerciseId === 2)
 
           const userLastDataGrade2 = userScoreByGrade2.length > 0 ? userScoreByGrade2[userScoreByGrade2.length -1] : {exercise_score: "-" }
-          console.log(`hahohehe ${userLastDataGrade2.exercise_score}`)
 
           setUserLastScoreGrade2(userLastDataGrade2.exercise_score)
           
           const userScoreByGrade3 = actualDataUserExercise?.data?.filter((gradeExercise) => gradeExercise.ExerciseId === 3)
           
           const userLastDataGrade3 = userScoreByGrade3.length > 0 ? userScoreByGrade3[userScoreByGrade3.length -1] : {exercise_score: "-" }
-          console.log(`grade3 huu ${userLastDataGrade3.exercise_score}`)
 
           setUserLastScoreGrade3(userLastDataGrade3.exercise_score)
 
@@ -97,7 +91,6 @@ const Exercise = () => {
           return response.json();
         })
         .then((actualDataUserExercise) => {
-          console.log(actualDataUserExercise);
           setDataExercise(actualDataUserExercise);
           setError(null);
         })
@@ -114,24 +107,14 @@ const Exercise = () => {
     }
   }, []);
 
-  console.log(dataUserExercise, "dataUserExercise")
-  console.log(userLastScoreGrade1, "userLastScoreGrade1ADAYANGGAPERCAYA")
-  console.log(userLastScoreGrade2, "userLastScoreGrade2PASTIBISA")
-  console.log(userLastScoreGrade3, "userLastScoreGrade3hihihahahaa")
 
   const arrayDataUserExerciseLength = dataUserExercise?.data.length - 1;
-  console.log(arrayDataUserExerciseLength, "arrayDataUserExerciseLength")
 
   const gradeExerciseData = dataExercise?.data?.map(
     (data) => data.grade_exercise
   );
 
-  console.log(gradeExerciseData, "gradeExerciseData");
-
   const uniquesValues = [...new Set(gradeExerciseData)];
-  console.log(uniquesValues, "uniquesValues");
-
-  console.log(dataExercise, "dataexercise");
 
   const detailExerciseListArray = ["Exercise Topic 1 - Topic 4", " Exercise Topic 5 - Topic 9", "Exercise Topic 10 - Topic 15"]
 
@@ -166,190 +149,6 @@ const Exercise = () => {
         </Box>
         <Stack direction="row" spacing={4}>
           {exerciseLists()}
-          {/* <Box
-            sx={{
-              bgcolor: "#EDF4F7",
-              width: "19.375rem",
-              height: "23.25rem",
-              borderRadius: "0.5rem",
-              border: "1px solid  #313131",
-            }}
-          >
-            <Stack
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                py: 3,
-                mb: 1,
-                background: "#fff",
-                borderRadius: "0.5rem 0.5rem 0 0",
-              }}
-            >
-              <img style={{ height: "10rem" }} src={logo} />
-            </Stack>
-            <Stack
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "left",
-                px: 2,
-              }}
-            >
-              <Typography sx={{ fontSize: "1.25rem" }}>
-                Grade {uniquesValues[0]}
-              </Typography>
-              <Typography
-                sx={{ mt: 0.25, fontFamily: "Roboto", fontSize: "0.875rem" }}
-              >
-                Exercise Topic 1 - Topic 4
-              </Typography>
-              <Typography
-                sx={{ mt: 1, mb: 2, color: "#666", fontSize: "0.875rem " }}
-              >
-                Score: {userScoreFinal} / 10
-              </Typography>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  setTabValue("exercise");
-                  navigate("/exercise/grade/1");
-                }}
-                sx={{
-                  textTransform: "capitalize",
-                  fontFamily: "Roboto",
-                  fontSize: "1rem",
-                  lineHeight: "1.8rem",
-                }}
-              >
-                Practice
-              </Button>
-            </Stack>
-          </Box>
-
-          <Box
-            sx={{
-              bgcolor: "#EDF4F7",
-              width: "19.375rem",
-              height: "23.25rem",
-              borderRadius: "0.5rem",
-              border: "1px solid  #313131",
-            }}
-          >
-            <Stack
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                py: 3,
-                mb: 1,
-                background: "#fff",
-                borderRadius: "0.5rem 0.5rem 0 0",
-              }}
-            >
-              <img style={{ height: "10rem" }} src={logo} />
-            </Stack>
-            <Stack
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "left",
-                px: 2,
-              }}
-            >
-              <Typography sx={{ fontSize: "1.25rem" }}>
-                Grade {uniquesValues[1]}
-              </Typography>
-              <Typography
-                sx={{ mt: 0.25, fontFamily: "Roboto", fontSize: "0.875rem" }}
-              >
-                Exercise Topic 5 - Topic 9
-              </Typography>
-              <Typography
-                sx={{ mt: 1, mb: 2, color: "#666", fontSize: "0.875rem " }}
-              >
-                Score: {userScoreFinal} / 10
-              </Typography>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  setTabValue("exercise");
-                  navigate("/exercise/grade/2");
-                }}
-                sx={{
-                  textTransform: "capitalize",
-                  fontFamily: "Roboto",
-                  fontSize: "1rem",
-                  lineHeight: "1.8rem",
-                }}
-              >
-                Practice
-              </Button>
-            </Stack>
-          </Box>
-          <Box
-            sx={{
-              bgcolor: "#EDF4F7",
-              width: "19.375rem",
-              height: "23.25rem",
-              borderRadius: "0.5rem",
-              border: "1px solid  #313131",
-            }}
-          >
-            <Stack
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                py: 3,
-                mb: 1,
-                background: "#fff",
-                borderRadius: "0.5rem 0.5rem 0 0",
-              }}
-            >
-              <img style={{ height: "10rem" }} src={logo} />
-            </Stack>
-            <Stack
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "left",
-                px: 2,
-              }}
-            >
-              <Typography sx={{ fontSize: "1.25rem" }}>
-                Grade {uniquesValues[2]}
-              </Typography>
-              <Typography
-                sx={{ mt: 0.25, fontFamily: "Roboto", fontSize: "0.875rem" }}
-              >
-                Exercise Topic 10 - Topic 15
-              </Typography>
-              <Typography
-                sx={{ mt: 1, mb: 2, color: "#666", fontSize: "0.875rem " }}
-              >
-                Score: {userScoreFinal} / 10
-              </Typography>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  setTabValue("exercise");
-                  navigate("/exercise/grade/3");
-                }}
-                sx={{
-                  textTransform: "capitalize",
-                  fontFamily: "Roboto",
-                  fontSize: "1rem",
-                  lineHeight: "1.8rem",
-                }}
-              >
-                Practice
-              </Button>
-            </Stack>
-          </Box> */}
         </Stack>
       </Box>
     </>

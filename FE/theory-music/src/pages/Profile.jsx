@@ -87,39 +87,15 @@ const Profile = () => {
     switch (event.target.name) {
       case "new_name":
         setNew_name(event.target.value);
-        console.log(new_name, "new_name");
         setIsChange(true)
         break;
       case "password":
         setPassword(event.target.value);
-        console.log(password, "password");
         setIsChange(true)
         break;
     }
   };
 
-  // const handleSavePassword = (event) => {
-  //   // event.preventDefault();
-  //   const newData = {
-  //     old_password,
-  //     new_password,
-  //   };
-
-  //   fetch(urlChangePassword, {
-  //     method: "PUT",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(newData),
-  //   })
-  //     .then((response) => {
-  //       console.log(response, "resp");
-  //       return response.json();
-  //     })
-  //     .then((json) => {
-  //       setMessage(json.message);
-  //     });
-  // };
   const handleSaveName = (event) => {
 
     fetch(urlUpdateName, {
@@ -132,7 +108,6 @@ const Profile = () => {
       }),
     })
       .then((response) => {
-        console.log(response, "resp");
         return response.json();
       })
       .then((json) => {
@@ -175,7 +150,6 @@ const Profile = () => {
         return response.json();
       })
       .then((actualData) => {
-        console.log(actualData);
         setDataUser(actualData);
         setError(null);
       })
@@ -191,7 +165,6 @@ const Profile = () => {
 
   const userEmail = dataUser?.data?.email;
   const userName = dataUser?.data?.name;
-  console.log(userEmail);
 
   // const userEmail = dataUser?.data?.email;
 

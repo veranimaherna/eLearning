@@ -101,7 +101,6 @@ function Register() {
                 password: value.password,
                 role: "student",
               };
-              console.log(data);
               fetch(url, {
                 method: "POST",
                 headers: {
@@ -110,7 +109,6 @@ function Register() {
                 body: JSON.stringify(data),
               })
                 .then((response) => {
-                  console.log(response);
                   return response.json();
                 })
                 .then((json) => {
@@ -118,10 +116,6 @@ function Register() {
                 });
               setSubmitting(false);
             }}
-
-            // onSubmit={(values) => {
-            //   console.log(values);
-            // }}
           >
             {(formik) => {
               const { errors, touched, isValid, dirty } = formik;

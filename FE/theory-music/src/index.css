@@ -1,0 +1,45 @@
+.formLogin{
+    display: "flex";
+    flex-direction: "column";
+    width: 100%;
+}
+
+.boxFormLogin {
+    width: 100%;
+}
+
+.input {
+    width: 26.375rem; 
+    margin-bottom: 0.5;
+}
+
+@media(max-width:768px){
+    .boxSlider{
+        display: flex;
+        flex-direction: column;
+        gap:8px;
+    }
+    .boxLogin img{
+        display: none;
+    }
+}
+
+@media(max-width:576px){
+    .boxSlider img{
+        display: none;
+    }
+
+    .boxFormLogin {
+        padding: 0px 32px;
+        
+    }
+/* 
+    .formLogin {
+        padding: 0px 32px;
+        margin: 0 auto;
+    } */
+
+    .input {
+        max-width: 80%  !important;
+    }
+}
