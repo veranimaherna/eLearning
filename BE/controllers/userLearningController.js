@@ -10,7 +10,7 @@ exports.getUserLearning = async (req, res) => {
       .json({ message: "List of User Learning", data: listUserLearning });
   } catch (error) {
     res.status(400).json({ message: "Failed to Get Data" });
-    console.log(error);
+    
   }
 };
 

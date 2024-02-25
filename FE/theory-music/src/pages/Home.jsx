@@ -8,6 +8,7 @@ import {
   TextField,
   Tabs,
   Tab,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
 import Carousel from "react-material-ui-carousel";
@@ -19,7 +20,8 @@ import logoBottom from "../assets/logoBottom.png";
 
 import "@fontsource/nunito/800.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { NoEncryption } from "@mui/icons-material";
 
 const themeStyled = createTheme({
   palette: {
@@ -45,7 +47,7 @@ function GradeText(text) {
       sx={{
         // color: "#506CF0",
         fontFamily: "Lora",
-        fontSize: "1.7rem",
+        fontSize: { xs: "1.2rem", sm: "1.7rem" },
         fontStyle: "normal",
         fontWeight: 700,
         lineHeight: "normal",
@@ -64,7 +66,7 @@ function GradeModules(text) {
       sx={{
         color: "#313131",
         fontFamily: "Roboto",
-        fontSize: "1rem",
+        fontSize: { xs: "0.8rem", sm: "1rem" },
         fontStyle: "normal",
         fontWeight: 400,
         lineHeight: "normal",
@@ -81,10 +83,11 @@ function TopicTitle(text) {
       sx={{
         color: "#313131",
         fontFamily: "Roboto",
-        fontSize: "1.25rem",
+        fontSize: { xs: "0.9rem", sm: "1.25rem" },
         fontStyle: "normal",
         fontWeight: 600,
         lineHeight: "normal",
+        mb: 0.8
       }}
     >
       {text}
@@ -98,11 +101,11 @@ function TopicDescription(text) {
       sx={{
         color: "#313131",
         fontFamily: "Roboto",
-        fontSize: "1.125rem",
+        fontSize: { xs: "0.9rem", sm: "1.125rem" },
         fontStyle: "normal",
         fontWeight: 400,
-        lineHeight: "2.25rem",
-        my: "1rem",
+        lineHeight: { xs: "1rem", sm: "2.25rem" },
+        mb: { xs: "0.8rem", sm: "1rem" },
       }}
     >
       {text}
@@ -130,19 +133,31 @@ const Home = () => {
     setTabIndex(newTabIndex);
   };
 
+  const navigate = useNavigate()
+
+  const smallScreen = useMediaQuery("(max-width: 820px)");
+
   return (
     <ThemeProvider theme={themeStyled}>
-      <Box sx={{ marginTop: 20 }}>
+      <Box
+        sx={{
+          paddingTop: { xs: 5, md: 20 },
+        }}
+
+      >
         {/* HERO */}
-        <Box sx={{ position: "relative" }}>
+        <Box sx={{ position: "relative" }} className="hero">
           <Typography
             color="#FE7860"
             fontFamily="Nunito"
-            fontSize="5rem"
+            sx={{
+              fontSize: { xs: "2.5rem", md: "5rem" },
+              marginBottom: { xs: "2rem", md: "3.25rem" },
+              px: { xs: 3, md: 0 }
+            }}
             fontWeight="900"
             lineHeight="normal"
             textAlign="center"
-            marginBottom="3.25rem"
           >
             Basic Theory of Music
           </Typography>
@@ -150,12 +165,15 @@ const Home = () => {
             color="#313131"
             textAlign="center"
             fontFamily="Roboto"
-            fontSize="1.5rem"
+            sx={{
+              fontSize: { xs: "1rem", md: "1.5rem" },
+              lineHeight: { xs: "1.5rem", md: "1rem" },
+              px: { xs: 6, md: 0 },
+              marginBottom: { xs: "2rem", md: "3.25rem" }
+            }}
             fontWeight="500"
-            lineHeight="1rem"
             letterSpacing="0.09375rem"
             textTransform="uppercase"
-            marginBottom="3.25rem"
           >
             Learn the concept of music faster and better
           </Typography>
@@ -165,6 +183,10 @@ const Home = () => {
             fontFamily="Roboto"
             fontSize="1.375rem"
             fontWeight="500"
+            sx={{
+              fontSize: { xs: "1.1rem", md: "1.375rem" },
+              px: { xs: 3, md: 0 }
+            }}
           >
             Discover the Melody of Knowledge:
           </Typography>
@@ -175,6 +197,11 @@ const Home = () => {
             fontWeight="400"
             textAlign="center"
             marginBottom="2rem"
+            sx={{
+              fontSize: { xs: "0.9rem", md: "1.375rem" },
+              pt: { xs: 0.8 },
+              px: { xs: 3, md: 0 }
+            }}
           >
             Elevate Your Musicality with Learning Theory!
           </Typography>
@@ -183,7 +210,7 @@ const Home = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              marginBottom: 10,
+              marginBottom: { xs: 4, md: 10 },
             }}
           >
             <Button
@@ -195,6 +222,7 @@ const Home = () => {
                 fontWeight: 400,
                 textTransform: "uppercase",
               }}
+              onClick={() => { setTabValue("learning"); navigate("/learning") }}
             >
               Learn Now
             </Button>
@@ -208,26 +236,28 @@ const Home = () => {
         </Box>
 
         {/* CAROUSEL */}
-        <Box sx={{ px: 8, py: 15, bgcolor: "#EDF4F7" }}>
+        <Box sx={{ px: { xs: 3, md: 8, lg: 9, xl: 20 }, py: { xs: 5, md: 15 }, bgcolor: "#EDF4F7" }}>
           <Carousel
             stopAutoPlayOnHover={true}
             animation="slide"
             swipe={true}
             indicators={true}
           >
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box sx={{ display: "flex", justifyContent: "center" }} className="boxSlider">
               <img src={carouselPict1} alt="Carousel Pict 1" square={false} />
               <Paper
                 elevation={0}
-                sx={{ marginLeft: "3.75rem", bgcolor: "#EDF4F7" }}
+                sx={{ marginLeft: { xs: 0, md: "3.75rem" }, bgcolor: "#EDF4F7" }}
               >
                 <Typography
                   sx={{
                     color: "#FE7860",
                     fontFamily: "Nunito",
-                    fontSize: "2.25rem",
+                    fontSize: { xs: "1.5rem", md: "2.25rem" },
                     fontWeight: 900,
-                    marginBottom: "2.5rem",
+                    marginBottom: { xs: "1.5rem", md: "2.5rem" },
+                    textAlign: { xs: "center", md: "left" }
+
                   }}
                 >
                   Who is this course for?
@@ -236,7 +266,7 @@ const Home = () => {
                   align="justify"
                   sx={{
                     fontFamily: "Roboto",
-                    fontSize: "1.125rem",
+                    fontSize: { xs: "0.8rem", md: "1.125rem" },
                     fontWeight: 400,
                     lineHeight: "1.75rem",
                   }}
@@ -257,18 +287,19 @@ const Home = () => {
                 </Typography>
               </Paper>
             </Box>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box sx={{ display: "flex", justifyContent: "center" }} className="boxSlider">
               <Paper
                 elevation={0}
-                sx={{ marginRight: "3.75rem", bgcolor: "#EDF4F7" }}
+                sx={{ marginRight: { xs: 0, md: "3.75rem" }, bgcolor: "#EDF4F7" }}
               >
                 <Typography
                   sx={{
                     color: "#FE7860",
                     fontFamily: "Nunito",
-                    fontSize: "2.25rem",
+                    fontSize: { xs: "1.5rem", md: "2.25rem" },
                     fontWeight: 900,
-                    marginBottom: "2.5rem",
+                    marginBottom: { xs: "1.5rem", md: "2.5rem" },
+                    textAlign: { xs: "center", md: "left" }
                   }}
                 >
                   What’s in this course?
@@ -278,7 +309,7 @@ const Home = () => {
                   align="justify"
                   sx={{
                     fontFamily: "Roboto",
-                    fontSize: "1.125rem",
+                    fontSize: { xs: "0.8rem", md: "1.125rem" },
                     fontWeight: 400,
                     lineHeight: "1.75rem",
                   }}
@@ -305,12 +336,12 @@ const Home = () => {
 
         {/* LEARNING GRADE TOPIC */}
         <Box sx={{ mt: 10, mb: 10 }}>
-          <Box sx={{ mb: 8 }}>
+          <Box sx={{ mb: { xs: 4, md: 8 } }} >
             <Typography
               sx={{
                 color: "#FE7860",
                 fontFamily: "Nunito",
-                fontSize: "2.75rem",
+                fontSize: { xs: "1.5rem", md: "2.75rem" },
                 fontWeight: 900,
                 textAlign: "center",
                 mb: 1.5,
@@ -322,7 +353,7 @@ const Home = () => {
               sx={{
                 textAlign: "center",
                 fontFamily: "Roboto",
-                fontSize: "1rem",
+                fontSize: { xs: "0.8rem", md: "1rem" },
                 fontWeight: 400,
                 lineHeight: "1rem",
                 letterSpacing: "0.09375rem",
@@ -335,18 +366,17 @@ const Home = () => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: { xs: "column", sm: "column", md: "row" },
               justifyContent: "center",
-              mx: 20,
-              border: 1,
-              borderLeft: 0,
+              alignItems: "center",
+              mx: { xs: 3, md: 20, xl: 50 },
             }}
           >
             <Box>
               <Tabs
                 value={tabIndex}
                 onChange={handleTabChange}
-                orientation="vertical"
+                orientation={smallScreen ? "horizonal" : "vertical"}
                 inkbarstyle={{ background: "black" }}
                 backgroundColor="secondary"
               >
@@ -357,33 +387,18 @@ const Home = () => {
                       {GradeModules("4 Modules")}
                     </>
                   }
-                  sx={
-                    clickTabMaterial == "grade1"
-                      ? {
-                          width: "19.375rem",
-                          height: "12.5rem",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          bgcolor: "#EDF4F7",
-                          border: 1,
-                          borderColor: "#313131",
-                          borderRadius: "0rem 1.75rem 0rem 1.75rem",
-                        }
-                      : {
-                          width: "19.375rem",
-                          height: "12.5rem",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          bgcolor: "#F9F9F9",
-                          border: 1,
-                          borderColor: "#313131",
-                          borderRadius: "0rem 1.75rem 0rem 1.75rem",
-                        }
-                  }
+                  sx={{
+                    width: { xs: "7.1rem", sm: "15rem", md: "18rem" },
+                    height: { xs: "6rem", sm: "9rem", md: "12.5rem" },
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    bgcolor: (clickTabMaterial == "grade1") ? "#EDF4F7" : "#F9F9F9",
+                    border: 0.8,
+                    borderColor: "#313131",
+                    borderRadius: { xs: "1rem 0rem 0rem 0rem", md: "1.75rem 0rem 0rem 1.75rem" },
+                  }}
                   onClick={() => {
                     setClickTabMaterial("grade1");
                   }}
@@ -396,33 +411,18 @@ const Home = () => {
                       {GradeModules("5 Modules")}
                     </>
                   }
-                  sx={
-                    clickTabMaterial == "grade2"
-                      ? {
-                          width: "19.375rem",
-                          height: "12.5rem",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          bgcolor: "#EDF4F7",
-                          border: 1,
-                          borderColor: "#313131",
-                          borderRadius: "1.75rem 0rem 0rem 1.75rem",
-                        }
-                      : {
-                          width: "19.375rem",
-                          height: "12.5rem",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          bgcolor: "#F9F9F9",
-                          border: 1,
-                          borderColor: "#313131",
-                          borderRadius: "1.75rem 0rem 0rem 1.75rem",
-                        }
-                  }
+                  sx={{
+                    width: { xs: "7.1rem", sm: "15rem", md: "18rem" },
+                    height: { xs: "6rem", sm: "9rem", md: "12.5rem" },
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    bgcolor: (clickTabMaterial == "grade2") ? "#EDF4F7" : "#F9F9F9",
+                    border: 1,
+                    borderColor: "#313131",
+                    borderRadius: { xs: "0rem", md: "1.75rem 0rem 0rem 1.75rem" },
+                  }}
                   onClick={() => {
                     setClickTabMaterial("grade2");
                   }}
@@ -435,33 +435,18 @@ const Home = () => {
                       {GradeModules("6 Modules")}
                     </>
                   }
-                  sx={
-                    clickTabMaterial == "grade3"
-                      ? {
-                          width: "19.375rem",
-                          height: "12.5rem",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          bgcolor: "#EDF4F7",
-                          border: 1,
-                          borderColor: "#313131",
-                          borderRadius: "1.75rem 0rem 0rem 0rem",
-                        }
-                      : {
-                          width: "19.375rem",
-                          height: "12.5rem",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          bgcolor: "#F9F9F9",
-                          border: 1,
-                          borderColor: "#313131",
-                          borderRadius: "1.75rem 0rem 0rem 0rem",
-                        }
-                  }
+                  sx={{
+                    width: { xs: "7.1rem", sm: "15rem", md: "18rem" },
+                    height: { xs: "6rem", sm: "9rem", md: "12.5rem" },
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    bgcolor: (clickTabMaterial == "grade3") ? "#EDF4F7" : "#F9F9F9",
+                    border: 1,
+                    borderColor: "#313131",
+                    borderRadius: { xs: "0rem 1rem 0rem 0rem", md: "1.75rem 0rem 0rem 0rem" },
+                  }}
                   onClick={() => {
                     setClickTabMaterial("grade3");
                   }}
@@ -470,12 +455,17 @@ const Home = () => {
             </Box>
             <Box
               sx={{
-                px: 5,
                 bgcolor: "#F9F9F9",
-                pt: 7,
-                height: "34rem",
+                px: { xs: 2, lg: 5 },
+                pt: { xs: 4, md: 7 },
+                width: { xs: "19.2rem", sm: "42.9rem", md: "58.125rem" },
+                height: { xs: "20rem", sm: "25rem", md: "33.8rem" },
                 overflowX: "hidden",
                 overflowY: "scroll",
+                borderTop: { md: 1 },
+                borderBottom: 1,
+                borderLeft: { xs: 1, md: 0 },
+                borderRight: 1
               }}
               aria-label="topic"
             >
@@ -485,7 +475,9 @@ const Home = () => {
                     "TOPIC 1 - Basics of Notation in Treble and Bass Clef"
                   )}
                   {TopicDescription(
-                    <ul>
+                    <ul style={{
+                      margin: 0, paddingInlineStart: "20px"
+                    }}>
                       <li>
                         Note values of semibreve, minim, crotchet, quaver and
                         semiquaver, and their equivalent rests (candidates may
@@ -595,21 +587,25 @@ const Home = () => {
         <Divider />
         <Box
           sx={{
-            py: 15,
-            px: 8,
+            py: { xs: 5, md: 15 },
+            px: { xs: 3, md: 8 },
             bgcolor: "#EDF4F7",
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: { xs: "column", md: "row" }
           }}
+          className="unlockSection"
         >
-          <Paper elevation={0} sx={{ bgcolor: "#EDF4F7", mr: 2 }}>
+          <Paper elevation={0} sx={{ bgcolor: "#EDF4F7", marginRight: { xs: 0, md: 2, xl: 18 } }}>
             <Typography
               sx={{
                 color: "#506CF0",
                 fontFamily: "Lora",
-                fontSize: "2.5rem",
+                fontSize: { xs: "1.3rem", md: "2.5rem" },
                 fontWeight: 700,
-                marginBottom: "2rem",
+                marginBottom: { xs: "1rem", md: "2rem" },
+                textAlign: "center"
               }}
             >
               Unlock The Secrets of Musical Mastery:
@@ -619,28 +615,30 @@ const Home = () => {
               sx={{
                 color: "#A7C0CD",
                 fontFamily: "Lora",
-                fontSize: "2rem",
+                fontSize: { xs: "1rem", md: "2rem" },
                 fontStyle: "normal",
                 fontWeight: 100,
+                textAlign: "center",
+                mb: { xs: 2 }
               }}
             >
               Journey through learning theory and find your rhythm
             </Typography>
           </Paper>
-          <img src={logoBottom} alt="Logo" style={{ width: "350px" }} />
+          <img src={logoBottom} alt="Logo" />
         </Box>
 
         {/* Register */}
         {userlogin ? (
           <></>
         ) : (
-          <Box sx={{ my: 10 }}>
+          <Box sx={{ my: { xs: 6, md: 10 }, mx: { xs: 3, md: 0 } }}>
             <Box>
               <Typography
                 sx={{
                   color: "#313131",
                   fontFamily: "Roboto",
-                  fontSize: "2.5rem",
+                  fontSize: { xs: "1.5rem", md: "2.5rem" },
                   fontStyle: "normal",
                   fontWeight: 500,
                   textAlign: "center",
@@ -653,26 +651,21 @@ const Home = () => {
                 sx={{
                   color: "#313131",
                   fontFamily: "Roboto",
-                  fontSize: "1.375rem",
+                  fontSize: { xs: "0.8rem", md: "1.375rem" },
                   fontWeight: 400,
                   textAlign: "center",
-                  mb: "4rem",
+                  mb: { xs: "2rem", md: "4rem" },
                 }}
               >
-                Enter your email address to take part in our learning journey
-                today.
+                Enter your email address to take part in our learning journey today.
               </Typography>
             </Box>
-            <Box display="flex" justifyContent="center">
+            <Box display="flex" sx={{ flexDirection: { xs: "column", sm: "row" } }} justifyContent="center" gap={2}>
               <TextField
                 size="small"
                 id="outlined-basic"
                 placeholder="Input your email"
                 variant="outlined"
-                sx={{
-                  width: 250,
-                  mr: 2,
-                }}
               />
               <Button
                 variant="contained"
@@ -683,6 +676,7 @@ const Home = () => {
                   fontWeight: 400,
                   textTransform: "uppercase",
                 }}
+                onClick={() => navigate("/learning")}
               >
                 Learn Now
               </Button>
@@ -690,7 +684,7 @@ const Home = () => {
           </Box>
         )}
       </Box>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 };
 

@@ -8,9 +8,11 @@ import {
   Box,
   Button,
   Container,
+  Divider,
   IconButton,
   Menu,
   MenuItem,
+  Stack,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -25,15 +27,17 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
+import { red } from "@mui/material/colors";
+import Logout from "@mui/icons-material/Logout";
 
 const pages = ["Home", "Learning", "Exercise"];
 
 function stringAvatar(name) {
   let myName = name.split(" ");
   const childrenValue =
-    myName.length === 2
-      ? `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`
-      : `${name.split(" ")[0][0]}`;
+    myName.length === 1
+      ? `${name.split(" ")[0][0]}`
+      : `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`;
   return {
     sx: {
       // bgcolor: stringToColor(name),
@@ -43,7 +47,28 @@ function stringAvatar(name) {
       color: "#A7C0CD",
       fontSize: "1.5rem",
       mr: 1,
-      textTransform: "capitalize",
+      textTransform: "uppercase",
+    },
+    children: childrenValue,
+  };
+}
+
+function stringAvatarPhone(name) {
+  let myName = name.split(" ");
+  const childrenValue =
+    myName.length === 1
+      ? `${name.split(" ")[0][0]}`
+      : `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`;
+  return {
+    sx: {
+      // bgcolor: stringToColor(name),
+      bgcolor: "#EDF4F7",
+      // width: 24,
+      // height: 24,
+      color: "#A7C0CD",
+      fontSize: "1.2rem",
+      mr: 1,
+      textTransform: "uppercase",
     },
     children: childrenValue,
   };
@@ -61,30 +86,68 @@ const Navbar = ({
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
 
+  const [dataUser, setDataUser] = useState(null)
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
+
   const navigate = useNavigate();
 
   const handleOpenNavMenu = () => {
-    setOpenMenu(!openMenu);
+    console.log("click Menu")
+    setOpenMenu(true);
   };
 
   const handleCloseNavMenu = () => {
-    setOpenMenu(null);
+    setOpenMenu(false);
   };
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
 
+  const userAuth = JSON.parse(localStorage.getItem("user"))
   const userName = localStorage.getItem("userName");
+  const userId = localStorage.getItem("userId")
+  const urlProfileById = `http://localhost:8000/profile/${userId}`;
+
+
   useEffect(() => {
     const token = localStorage.getItem("userToken");
     const user = localStorage.getItem("user");
 
     if (token) {
       setIsLoggedIn(true);
-      console.log("ini token " + token);
+      // console.log("ini token " + token);
       setUserlogin(user);
       setProfileName(userName);
+
+      fetch(urlProfileById, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: userAuth.token,
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(
+              `This is an HTTP error: The status is ${response.status}`
+            );
+          }
+          return response.json();
+        })
+        .then((actualData) => {
+          setDataUser(actualData);
+          setError(null);
+        })
+        .catch((err) => {
+
+          setError(err.message);
+          setDataUser(null);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } else {
       setIsLoggedIn(false);
       console.log("no token");
@@ -111,16 +174,18 @@ const Navbar = ({
   return (
     <ThemeProvider theme={theme}>
       <AppBar
+        position="sticky"
         elevation={0}
         sx={{
           bgcolor: "#ffffff",
           display: "flex",
-          justifyContent: "space-between",
+          alignItems: "center",
           padding: 1,
+          mb: 2
         }}
       >
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
+        <Container maxWidth="xl" >
+          <Toolbar disableGutters sx={{ display: "flex", justifyContent: "space-between" }}>
             {/* logo */}
             <Box
               onClick={() => {
@@ -147,7 +212,7 @@ const Navbar = ({
                 sx={{
                   mr: 8,
                   ml: 0.5,
-                  display: { xs: "flex", md: "flex" },
+                  display: { xs: "none", md: "flex" },
                   fontFamily: "Mochiy Pop One",
                   fontWeight: 800,
                   textDecoration: "none",
@@ -281,12 +346,29 @@ const Navbar = ({
                     sx={{
                       display: "flex",
                       flexDirection: "row",
-                      justifyContent: "center", 
+                      justifyContent: "center",
                       alignItems: "center",
                     }}
                   >
                     <Button onClick={() => { setTabValue(); navigate("/profile") }}>
-                      <Avatar {...stringAvatar(userName)} />
+                      {dataUser?.data.profile_image ?
+                        <label htmlFor="profile-image">
+                          <Avatar
+                            src={dataUser?.data.profile_image}
+                            sx={{
+                              width: 48,
+                              height: 48,
+                              border: 1,
+                              mr:1
+                            }}
+                          />
+                        </label>
+                        :
+                        <Avatar
+                          {...stringAvatar(userName)}
+                        />
+                      }
+                      {/* <Avatar {...stringAvatar(userName)} /> */}
                       <Typography
                         sx={{
                           color: "#313131",
@@ -304,8 +386,8 @@ const Navbar = ({
                       </Typography>
                     </Button>
                     <Button
-                      endIcon={<LogoutIcon />}
                       href="/"
+                      endIcon={<LogoutIcon />}
                       variant="outlined"
                       sx={{
                         ml: 2,
@@ -315,7 +397,7 @@ const Navbar = ({
                         color: "#313131",
                         textTransform: "capitalize",
                       }}
-                      onClick={() => localStorage.clear()}
+                      onClick={() => { localStorage.clear() }}
                     >
                       Logout
                     </Button>
@@ -357,7 +439,7 @@ const Navbar = ({
             </Box>
             <Box
               sx={{
-                flexGrow: 1,
+                // flexGrow: 1,
                 display: { xs: "flex", md: "none" },
                 justifyContent: "space-between",
               }}
@@ -371,37 +453,112 @@ const Navbar = ({
               >
                 <UilBars />
               </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                openMenu={openMenu}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                {pages.map((page) => {
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                    <Typography textAlign="center" href="/login">
-                      Login
-                    </Typography>
-                    <Typography textAlign="center" href="/register">
-                      Sign In
-                    </Typography>
-                  </MenuItem>;
-                })}
-              </Menu>
+
             </Box>
           </Toolbar>
         </Container>
+
+        <Menu
+          id="menu-appbar"
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          sx={{
+            // backgroundColor: "red",
+            display: { xs: "block", md: "none" },
+            mt: 5
+            // width:"40px",
+            // height:"20px"
+          }}
+          open={openMenu}
+          onClose={handleCloseNavMenu}
+
+        >
+          {isLoggedIn ?
+            <>
+              <MenuItem onClick={() => { setOpenMenu(false); navigate("/profile") }}>
+                <Avatar {...stringAvatarPhone(userName)} />
+                <Typography
+                  sx={{
+                    color: "#313131",
+                    textAlign: "center",
+                    fontFamily: "Roboto",
+                    fontSize: "1rem",
+                    fontStyle: "normal",
+                    fontWeight: 400,
+                    lineHeight: "1rem",
+                    letterSpacing: "0.09375rem",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {localStorage.getItem("userName").toLowerCase()}
+                </Typography>
+              </MenuItem>
+              <Divider />
+              <MenuItem
+                onClick={() => { setOpenMenu(false); navigate("/") }}
+              >
+                Home
+              </MenuItem>
+              <MenuItem
+                onClick={() => { setOpenMenu(false); navigate("/learning") }}
+              >
+                Learning
+              </MenuItem>
+              <MenuItem
+                onClick={() => { setOpenMenu(false); navigate("/exercise") }}>
+                Exercise
+              </MenuItem>
+              <MenuItem>
+                <Button
+                  href="/"
+                  startIcon={<LogoutIcon />}
+                  variant="text"
+                  size="small"
+                  sx={{
+                    fontSize: "1rem",
+                    lineHeight: "16px",
+                    letterSpacing: "1px",
+                    color: "#313131",
+                    textTransform: "capitalize",
+                    textAlign: "left",
+                    padding: 0
+                  }}
+                  onClick={() => { localStorage.clear() }}
+                >
+                  Logout
+                </Button>
+                {/* <Link href="/">
+                  <Stack direction="row" spacing={2}>
+                    <Logout fontSize="small" />
+                    Logout
+                  </Stack>
+                </Link> */}
+              </MenuItem>
+            </>
+            :
+            <>
+              <MenuItem
+                onClick={() => { setOpenMenu(false); navigate("/login") }}
+                autoFocus={true}
+              // onClickCapture={() => navigate("/login")}
+              >
+                Login
+              </MenuItem>
+              <MenuItem
+                onClick={() => { setOpenMenu(false); navigate("/register") }}
+              >
+                Register
+              </MenuItem>
+            </>
+          }
+        </Menu>
       </AppBar>
     </ThemeProvider>
   );

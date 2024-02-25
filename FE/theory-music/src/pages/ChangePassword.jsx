@@ -19,47 +19,11 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function stringToColor(string) {
-    let hash = 0;
-    let i;
-
-    for (i = 0; i < string.length; i += 1) {
-        hash = string.charCodeAt(i) + (hash << (5 - hash));
-    }
-
-    let color = "#";
-
-    for (i = 0; i < 3; i += 1) {
-        const value = (hash >> (i * 8)) & 0xff;
-        color += `00${value.toString(16)}`.slice(-2);
-    }
-
-    return color;
-}
-
-function stringAvatar(name) {
-    let myName = name.split(" ");
-    const childrenValue =
-        myName.length === 2
-            ? `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`
-            : `${name.split(" ")[0][0]}`;
-    return {
-        sx: {
-            // bgcolor: stringToColor(name),
-            width: 72,
-            height: 72,
-            fontSize: "2rem",
-            textTransform: "capitalize",
-        },
-        children: childrenValue,
-    };
-}
 
 const ChangePassword = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [dataUser, setDataUser] = useState(null);
-    // const [userEmail, setUserEmail] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -85,12 +49,10 @@ const ChangePassword = () => {
         switch (event.target.name) {
             case "old_password":
                 setOld_password(event.target.value);
-                console.log(old_password, "old_password");
                 setIsChange(true)
                 break;
             case "new_password":
                 setNew_password(event.target.value);
-                console.log(new_password, "new_password");
                 setIsChange(true)
                 break;
         }
@@ -111,7 +73,6 @@ const ChangePassword = () => {
             body: JSON.stringify(newData),
         })
             .then((response) => {
-                console.log(response, "resp");
                 return response.json();
             })
             .then((json) => {
@@ -154,12 +115,11 @@ const ChangePassword = () => {
                 return response.json();
             })
             .then((actualData) => {
-                console.log(actualData);
                 setDataUser(actualData);
                 setError(null);
             })
             .catch((err) => {
-                console.log(err.message);
+
                 setError(err.message);
                 setDataUser(null);
             })
@@ -172,7 +132,7 @@ const ChangePassword = () => {
         <>
             <Box
                 sx={{
-                    my: 15,
+                    my: { xs: 8, md: 16 },
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
@@ -196,95 +156,80 @@ const ChangePassword = () => {
                     <Alert severity="info">A moment please...</Alert>
                 ) : (
                     <>
-                        <Stack direction="row" display="flex" alignItems="center" spacing={5} sx={{ m: 5 }}>
-                            <Stack><Typography>Change Password</Typography></Stack>
-                            <Stack direction="column" spacing={2}>
-                                <FormControl variant="outlined" onChange={handleChange}>
-                                    <InputLabel htmlFor="outlined-adornment-password">
-                                        Old Password
-                                    </InputLabel>
-                                    <OutlinedInput
-                                        name="old_password"
-                                        id="password"
-                                        type={showPassword ? "text" : "password"}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                >
-                                                    {showPassword ? (
-                                                        <VisibilityOff />
-                                                    ) : (
-                                                        <Visibility />
-                                                    )}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        label="Password"
-                                        sx={{ width: "25rem" }}
-                                        size="small"
-                                    />
-                                </FormControl>
-                                <FormControl
-                                    sx={{}}
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                >
-                                    <InputLabel htmlFor="outlined-adornment-password">
-                                        New Password
-                                    </InputLabel>
-                                    <OutlinedInput
-                                        name="new_password"
-                                        id="confirmPassword"
-                                        type={showConfirmPassword ? "text" : "password"}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle confirm password visibility"
-                                                    onClick={handleClickShowConfirmPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                >
-                                                    {showConfirmPassword ? (
-                                                        <VisibilityOff />
-                                                    ) : (
-                                                        <Visibility />
-                                                    )}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        label="Confirm Password"
-                                        sx={{ width: "25rem" }}
-                                        size="small"
-                                    />
-                                </FormControl>
-                            </Stack>
+                        <Stack direction="column" spacing={2}>
+                            <FormControl variant="outlined" onChange={handleChange}>
+                                <InputLabel htmlFor="outlined-adornment-password">
+                                    Old Password
+                                </InputLabel>
+                                <OutlinedInput
+                                    name="old_password"
+                                    id="password"
+                                    type={showPassword ? "text" : "password"}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                edge="end"
+                                            >
+                                                {showPassword ? (
+                                                    <VisibilityOff />
+                                                ) : (
+                                                    <Visibility />
+                                                )}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                    label="Password"
+                                />
+                            </FormControl>
+                            <FormControl
+                                sx={{}}
+                                variant="outlined"
+                                onChange={handleChange}
+                            >
+                                <InputLabel htmlFor="outlined-adornment-password">
+                                    New Password
+                                </InputLabel>
+                                <OutlinedInput
+                                    name="new_password"
+                                    id="confirmPassword"
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle confirm password visibility"
+                                                onClick={handleClickShowConfirmPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                edge="end"
+                                            >
+                                                {showConfirmPassword ? (
+                                                    <VisibilityOff />
+                                                ) : (
+                                                    <Visibility />
+                                                )}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                    label="Confirm Password"
+                                />
+                            </FormControl>
                         </Stack>
                         <Button
                             variant="contained"
                             size="large"
-                            style={isChange == false ? {
+                            sx={{
                                 fontSize: "18px",
                                 lineHeight: "16px",
                                 letterSpacing: "1px",
                                 paddingTop: "1rem",
                                 paddingBottom: "1rem",
+                                marginTop: 3,
                                 color: "#ffffff",
+                                backgroundColor: (isChange == true) ? "#FE7860" : "",
                                 textTransform: "capitalize",
-                                width: "35rem",
-                            } : {
-                                fontSize: "18px",
-                                lineHeight: "16px",
-                                letterSpacing: "1px",
-                                paddingTop: "1rem",
-                                paddingBottom: "1rem",
-                                color: "#ffffff",
-                                backgroundColor: "#FE7860",
-                                textTransform: "capitalize",
-                                width: "35rem",
+                                width: "14.5rem",
                             }}
                             type="submit"
                             onClick={handleSave}

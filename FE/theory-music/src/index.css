@@ -1,0 +1,78 @@
+.boxFormLogin {
+    width: 100%;
+}
+
+.boxFormRegister {
+    width: 100%;
+}
+
+.boxLogin img {
+    width: 28rem
+}
+
+.boxRegisterImage img  {
+   width: 35rem
+}
+
+/* home */
+.unlockSection img  {
+    width: 350px
+}
+
+@media(max-width:820px){
+    .hero img {
+        width: 600px
+    }
+
+    .boxSlider{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap:16px;
+    }
+
+    .boxSlider img {
+        width: 250px;
+        height: 200px;
+    }
+
+    .boxLogin img{
+        width: 20rem;
+    }
+
+    .boxRegisterImage img  {
+        width: 20rem
+     }
+
+     .unlockSection img {
+        width: 205px;
+    }
+}
+
+@media(max-width:576px){
+    .boxSlider img{
+        display: none;
+    }
+
+    .boxLogin img{
+        width: 12rem;
+    }
+
+    .boxRegisterImage img  {
+        width: 18rem
+     }
+
+    /* home */
+    .unlockSection img {
+        width: 180px;
+    }
+
+    .hero img {
+        width: 400px
+    }
+
+    .exercise img {
+        width: 300px
+    }
+}

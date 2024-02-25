@@ -7,7 +7,7 @@ exports.getLearning = async (req, res) => {
     res.status(200).json({ message: "List of Learning", data: listLearning });
   } catch (error) {
     res.status(400).json({ message: "Failed to Get Data" });
-    console.log(error);
+    
   }
 };
 

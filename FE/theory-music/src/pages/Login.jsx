@@ -3,17 +3,12 @@ import {
   Alert,
   Box,
   Button,
-  Divider,
-  FormControl,
   IconButton,
   InputAdornment,
-  InputLabel,
-  OutlinedInput,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
 import loginImg from "../assets/login.png";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -59,10 +54,11 @@ function Login() {
     <>
       <Box
         sx={{
-          pt: 15,
+          pt: { xs: 1,  md: 0 },
           mb: 5,
           display: "flex",
           justifyContent: "center",
+          alignItems: "center"
         }}
       >
         {message == "Logged in Succesfully" && (
@@ -78,14 +74,15 @@ function Login() {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: { xs: "column", md: "row" },
           justifyContent: "center",
-          gap: 5,
-          mb: 10,
+          alignItems: "center",
+          gap: { xs: 1, md: 5 },
+          mb: 10
         }}
       >
-        <Box>
-          <img src={loginImg} style={{ width: "28rem" }} />
+        <Box className="boxLogin">
+          <img src={loginImg} />
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Formik
@@ -98,7 +95,6 @@ function Login() {
                 email: value.email,
                 password: value.password,
               };
-              console.log(data);
               fetch(url, {
                 method: "POST",
                 headers: {
@@ -107,7 +103,6 @@ function Login() {
                 body: JSON.stringify(data),
               })
                 .then((response) => {
-                  console.log(response.status);
                   return response.json();
                 })
                 .then((json) => {
@@ -119,16 +114,15 @@ function Login() {
                 });
               setSubmitting(true);
             }}
-
-            // onSubmit={(values) => {
-            //   console.log(values);
-            // }}
           >
             {(formik) => {
               const { errors, touched, isValid, dirty } = formik;
+              const errorClassEmail = errors.email && touched.email ? "input-error" : null
+              const errorClassPassword = errors.password && touched.password
+                ? "input-error"
+                : null
               return (
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  {console.log("vv", isValid)}
+                <Box sx={{ display: "flex", flexDirection: "column" }} className="boxFormLogin">
                   <Typography
                     sx={{
                       color: "#313131",
@@ -138,6 +132,7 @@ function Login() {
                       fontWeight: 500,
                       lineHeight: "normal",
                       mb: 3,
+                      textAlign: { xs: "center", md: "left" }
                     }}
                   >
                     Login
@@ -146,41 +141,28 @@ function Login() {
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        sx={{ width: "26.375rem", mb: 0.5 }}
                         label="Email"
                         variant="outlined"
                         placeholder="Input your email"
                         type="email"
                         name="email"
                         id="email"
-                        className={
-                          errors.email && touched.email ? "input-error" : null
-                        }
+                        className={`input ${errorClassEmail}`}
                         error={touched.email && Boolean(errors.email)}
                         helperText={touched.email && errors.email}
                       />
-                      {/* <ErrorMessage
-                        name="email"
-                        component="span"
-                        className="error"
-                      /> */}
                     </Stack>
 
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        sx={{ width: "26.375rem", mb: 0.5 }}
                         label="Password"
                         placeholder="Input your Password"
                         type={showPassword ? "text" : "password"}
                         variant="outlined"
                         name="password"
                         id="password"
-                        className={
-                          errors.password && touched.password
-                            ? "input-error"
-                            : null
-                        }
+                        className={`input ${errorClassPassword}`}
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="row">
@@ -200,11 +182,6 @@ function Login() {
                         error={touched.password && Boolean(errors.password)}
                         helperText={touched.password && errors.password}
                       />
-                      {/* <ErrorMessage
-                        name="password"
-                        component="span"
-                        className="error"
-                      /> */}
                     </Stack>
                     <Button
                       variant="contained"
@@ -213,7 +190,7 @@ function Login() {
                         fontSize: "18px",
                         lineHeight: "16px",
                         letterSpacing: "1px",
-                        // bgcolor: "#FE7860",
+                        bgcolor: "#FE7860",
                         color: "#fff",
                         mb: 1.5,
                         py: "1rem",
@@ -230,42 +207,6 @@ function Login() {
                       Login
                     </Button>
                   </Form>
-                  <Divider
-                    sx={{
-                      color: "#A7C0CD",
-                      fontSize: "1.125rem",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      lineHeight: "1rem",
-                      letterSpacing: "0.09375rem",
-                      textTransform: "capitalize",
-                      my: 2,
-                    }}
-                  >
-                    or
-                  </Divider>
-                  <Button
-                    startIcon={
-                      <GoogleIcon
-                        sx={{ fontSize: "large", color: "#506CF0" }}
-                      />
-                    }
-                    variant="outlined"
-                    size="large"
-                    sx={{
-                      fontSize: "18px",
-                      lineHeight: "16px",
-                      letterSpacing: "1px",
-                      color: "#313131",
-                      my: 1.5,
-                      py: "1rem",
-                      textTransform: "capitalize",
-                      border: 1.2,
-                      borderColor: "#506CF0",
-                    }}
-                  >
-                    Login with Google
-                  </Button>
                   <Typography
                     sx={{
                       color: "#313131",

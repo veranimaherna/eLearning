@@ -63,7 +63,7 @@ const Learning = () => {
           setError(null);
         })
         .catch((err) => {
-          console.log(err.message);
+
           setError(err.message);
           setData(null);
         })
@@ -126,7 +126,7 @@ const Learning = () => {
           <Stack direction="row" spacing={2}>
             <Grid container>
               {grade.Topics.map((topic) => (
-                <Grid item sm={12} md={6} lg={3}>
+                <Grid item xs={12} sm={6} lg={4}>
                   <Box
                     key={topic.id}
                     sx={{
@@ -135,8 +135,8 @@ const Learning = () => {
                       height: "auto",
                       borderRadius: "0.3rem",
                       border: "1px solid  #313131",
-                      mr:1,
-                      mb:3
+                      mr: 1,
+                      mb: 3
                     }}
                   >
                     {/* <Stack
@@ -226,32 +226,39 @@ const Learning = () => {
 
   return (
     <>
-      <Box sx={{ my: 15, px: 4 }}>
-        <Snackbar
-          open={isNotFoundFromState && open}
-          autoHideDuration={3000}
-          onClose={handleClose}
-        >
-          <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
-            There is no topic learning huy!
-          </Alert>
-        </Snackbar>
-        <Box
-          sx={{
-            mb: 2,
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          {loading && <Alert severity="info">A moment please...</Alert>}
-          {error && (
-            <Alert severity="warning">
-              There is a problem fetching the data
+      <Box sx={{
+        width: "100vw", display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}>
+        <Box sx={{ mb: 15, px: 4, maxWidth: "1536px" }}>
+          <Snackbar
+            open={isNotFoundFromState && open}
+            autoHideDuration={3000}
+            onClose={handleClose}
+          >
+            <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
+              There is no topic learning huy!
             </Alert>
-          )}
+          </Snackbar>
+          <Box
+            sx={{
+              mb: 2,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            {loading && <Alert severity="info">A moment please...</Alert>}
+            {error && (
+              <Alert severity="warning">
+                There is a problem fetching the data
+              </Alert>
+            )}
+          </Box>
+          {data && arrayDataGradeLearning}
         </Box>
-        {data && arrayDataGradeLearning}
       </Box>
+
     </>
   );
 };

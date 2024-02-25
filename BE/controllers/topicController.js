@@ -9,7 +9,7 @@ exports.getTopic = async (req, res) => {
     res.status(200).json({ message: "List of Topic", data: listTopics });
   } catch (error) {
     res.status(400).json({ message: "Failed to Get Data" });
-    console.log(error);
+    
   }
 };
 
@@ -43,7 +43,7 @@ exports.postTopic = async (req, res) => {
     res.status(201).json({ message: "Topic Created", data: createdTopic });
   } catch (error) {
     res.status(400).json({ message: "Failed to Save Data" });
-    console.log(error);
+    
   }
 };
 

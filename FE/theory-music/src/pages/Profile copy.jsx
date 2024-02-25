@@ -4,7 +4,12 @@ import {
   Avatar,
   Box,
   Button,
-  Modal,
+  Divider,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   Snackbar,
   Stack,
   TextField,
@@ -13,6 +18,7 @@ import {
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logoBottom from "../assets/logoBottom.png";
 
 function stringAvatar(name) {
   let myName = name.split(" ");
@@ -22,8 +28,7 @@ function stringAvatar(name) {
       : `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`;
   return {
     sx: {
-      bgcolor: "#EDF4F7",
-      color: "#A7C0CD",
+      // bgcolor: stringToColor(name),
       width: 72,
       height: 72,
       fontSize: "2rem",
@@ -34,7 +39,10 @@ function stringAvatar(name) {
 }
 
 const Profile = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [dataUser, setDataUser] = useState(null);
+  // const [userEmail, setUserEmail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -53,8 +61,10 @@ const Profile = () => {
   const [isChange, setIsChange] = useState(false);
 
 
+
   const userId = localStorage.getItem("userId");
   const user = JSON.parse(localStorage.getItem("user"));
+  const urlChangePassword = `http://localhost:8000/changePassword/${userId}`;
   const urlUpdateName = `http://localhost:8000/updateName/${userId}`;
   const urlProfileById = `http://localhost:8000/profile/${userId}`;
   const urlAvatar = `http://localhost:8000/avatar/${userId}`;
@@ -74,6 +84,7 @@ const Profile = () => {
   };
 
   const handleSaveName = (event) => {
+
     fetch(urlUpdateName, {
       method: "PUT",
       headers: {
@@ -100,13 +111,13 @@ const Profile = () => {
     handleSaveName()
   }
 
-  const [openAlert, setOpenAlert] = useState(true)
+  const [open, setOpen] = useState(true)
 
   const handleCloseAlert = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    setOpenAlert(true)
+    setOpen(true)
   }
 
   useEffect(() => {
@@ -141,6 +152,8 @@ const Profile = () => {
 
   console.log(dataUser, "dataUser")
 
+
+
   // const userEmail = dataUser?.data?.email;
 
   const handleUpdatePicture = (e) => {
@@ -163,11 +176,10 @@ const Profile = () => {
         body: formData
       })
         .then((res) => res.json())
-        .then((data) => {
-          setMessage(data.message);
+        .then(data => {
           if (data.message === "Profile picture updated successfully") {
-            handleCloseEditPicture()
-            navigate(0)
+            alert("success")
+            // window.location.href = data.image
           }
         })
     }
@@ -196,18 +208,11 @@ const Profile = () => {
     // }
   }
 
-  const [openEditPictureModal, setOpenEditPictureModal] = useState(false)
-
-  const handleOpenEditPicture = () => setOpenEditPictureModal(true)
-  const handleCloseEditPicture = () => setOpenEditPictureModal(false)
-
-  const profileImage = null
-
   return (
     <>
       {message === "Updated successfully" && (
         <Snackbar
-          open={openAlert}
+          open={open}
           autoHideDuration={10000}
           onClose={handleCloseAlert}
         >
@@ -217,26 +222,13 @@ const Profile = () => {
         </Snackbar>)}
       <Stack
         sx={{
-          mt: { xs: 2, md: 6 },
-          mb: { xs: 8, md: 16 },
+          my: { xs: 8, md: 16 },
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-
-        {message == "Profile picture updated successfully" && (
-          <Snackbar
-            open={openAlert}
-            autoHideDuration={10000}
-            onClose={handleCloseAlert}
-          >
-            <Alert onClose={handleCloseAlert} severity="success">
-              Updated succesfully!
-            </Alert>
-          </Snackbar>
-        )}
 
         <Typography
           sx={{
@@ -266,84 +258,33 @@ const Profile = () => {
           </Box>
         ) : (
           <>
-            {dataUser?.data.profile_image ?
-              <label htmlFor="profile-image">
-                <Avatar
-                  src={dataUser?.data.profile_image}
-                  sx={{
-                    width: 100,
-                    height: 100,
-                    border: 1
-                  }}
-                />
-              </label>
-              :
+            <label htmlFor="profile-image">
               <Avatar
-                {...stringAvatar(userName)}
+                //  {...stringAvatar(userName)}
+                src={image}
+                // alt="Profile Picture"
+                sx={{
+                  width: 72,
+                  height: 72
+                }}
               />
-            }
+            </label>
+            <input
+              type="file"
+              id="profileImage"
+              onChange={handleUpdatePicture}
+              accept="image/*"
+            // style={{ display: "none" }}
+            />
 
             <Stack sx={{ m: 2 }}>
-              <Button variant="outlined" onClick={handleOpenEditPicture}>
-                Edit Picture
+              <Button variant="outlined" onClick={uploadImage}>
+                Update Picture
               </Button>
-              {openEditPictureModal ?
-                <Modal
-                  open={openEditPictureModal}
-                  onClose={handleCloseEditPicture}
-                >
-                  <Box sx={{
-                    bgcolor: "#FFFFFF",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    py: 5,
-                    px: 5,
-                    gap: 3,
-                    width: "300px",
-                    borderRadius: "1rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)"
-                  }}>
-                    {saveImage ?
-                      <label htmlFor="profile-image">
-                        <Avatar
-                          src={image}
-                          sx={{
-                            width: 100,
-                            height: 100,
-                            border: 1
-                          }}
-                        />
-                      </label>
-                      :
-                      <Avatar
-                        {...stringAvatar(userName)}
-                      />
-                    }
 
-                    <input
-                      type="file"
-                      id="profileImage"
-                      onChange={handleUpdatePicture}
-                      accept="image/*"
-                      style={{ paddingLeft: "10px" }}
-                    />
-                    <Button variant="outlined" onClick={uploadImage}>
-                      Update Picture
-                    </Button>
-                  </Box>
-                </Modal>
-                : <></>}
-
-              <Button variant="outlined" sx={{ mt: 2 }} onClick={() => navigate("/changePassword")}>
-                Change Password
-              </Button>
+              <input type="file" id="update-profile-image" style={{ display: "none" }} />
+              <Button variant="outlined" sx={{ mt: 2 }} onClick={() => navigate("/changePassword")}>Change Password</Button>
             </Stack>
-
             <table style={{ marginBottom: " 1rem" }}>
               <tbody>
                 <tr style={{ height: "80px" }}>
@@ -406,9 +347,6 @@ const Profile = () => {
             </Button>
           </>
         )}
-
-
-
       </Stack>
     </>
   );

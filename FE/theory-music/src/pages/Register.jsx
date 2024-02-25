@@ -64,10 +64,11 @@ function Register() {
     <>
       <Box
         sx={{
-          pt: 15,
+          pt: { xs: 1, md: 0 },
           mb: 5,
           display: "flex",
           justifyContent: "center",
+          alignItems: "center"
         }}
       >
         {message == "User Created" && (
@@ -83,10 +84,11 @@ function Register() {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: { xs: "column", md: "row" },
           justifyContent: "center",
+          alignItems: "center",
           gap: 5,
-          mb: 10,
+          mb: 10
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -101,7 +103,6 @@ function Register() {
                 password: value.password,
                 role: "student",
               };
-              console.log(data);
               fetch(url, {
                 method: "POST",
                 headers: {
@@ -110,7 +111,6 @@ function Register() {
                 body: JSON.stringify(data),
               })
                 .then((response) => {
-                  console.log(response);
                   return response.json();
                 })
                 .then((json) => {
@@ -118,15 +118,11 @@ function Register() {
                 });
               setSubmitting(false);
             }}
-
-            // onSubmit={(values) => {
-            //   console.log(values);
-            // }}
           >
             {(formik) => {
               const { errors, touched, isValid, dirty } = formik;
               return (
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Box sx={{ display: "flex", flexDirection: "column" }} className="boxFormRegister">
                   <Typography
                     sx={{
                       color: "#313131",
@@ -136,6 +132,7 @@ function Register() {
                       fontWeight: 500,
                       lineHeight: "normal",
                       mb: 3,
+                      textAlign: { xs: "center", md: "left" }
                     }}
                   >
                     Sign Up
@@ -144,7 +141,6 @@ function Register() {
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        sx={{ width: "26.375rem", mb: 0.5 }}
                         id="name"
                         label="Name"
                         variant="outlined"
@@ -161,7 +157,6 @@ function Register() {
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        sx={{ width: "26.375rem", mb: 0.5 }}
                         label="Email"
                         variant="outlined"
                         placeholder="Input your email"
@@ -179,7 +174,6 @@ function Register() {
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        sx={{ width: "26.375rem", mb: 0.5 }}
                         label="Password"
                         placeholder="Input your Password"
                         type={showPassword ? "text" : "password"}
@@ -214,7 +208,6 @@ function Register() {
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        sx={{ width: "26.375rem", mb: 0.5 }}
                         label="Confirm Password"
                         placeholder="Input your Password"
                         type={showConfirmPassword ? "text" : "password"}
@@ -277,42 +270,6 @@ function Register() {
                       Sign Up
                     </Button>
                   </Form>
-                  <Divider
-                    sx={{
-                      color: "#A7C0CD",
-                      fontSize: "1.125rem",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      lineHeight: "1rem",
-                      letterSpacing: "0.09375rem",
-                      textTransform: "capitalize",
-                      my: 2,
-                    }}
-                  >
-                    or
-                  </Divider>
-                  <Button
-                    startIcon={
-                      <GoogleIcon
-                        sx={{ fontSize: "large", color: "#506CF0" }}
-                      />
-                    }
-                    variant="outlined"
-                    size="large"
-                    sx={{
-                      fontSize: "18px",
-                      lineHeight: "16px",
-                      letterSpacing: "1px",
-                      color: "#313131",
-                      my: 1.5,
-                      py: "1rem",
-                      textTransform: "capitalize",
-                      border: 1.2,
-                      borderColor: "#506CF0",
-                    }}
-                  >
-                    Login with Google
-                  </Button>
                   <Typography
                     sx={{
                       color: "#313131",
@@ -357,8 +314,8 @@ function Register() {
             }}
           </Formik>
         </Box>
-        <Box>
-          <img src={registerImg} style={{ width: "35rem" }} />
+        <Box className="boxRegisterImage">
+          <img src={registerImg} />
         </Box>
       </Box>
     </>
