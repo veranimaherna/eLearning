@@ -1,13 +1,14 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 import logoBottom from "../assets/logoBottom.png";
+import { convertLength } from "@mui/material/styles/cssUtils";
 
-const PreviewAnswer = ({ questionNumber, questionExercisePerNumber, exerciseCorrectAnswer, userAnswer, wrongAnswer }) => {
+const PreviewAnswer = ({ questionNumber, questionExercisePerNumber, exerciseCorrectAnswer, exerciseUserAnswer, wrongAnswer, isCorrection }) => {
   return (
     <>
       <Box
         sx={{
-          border: "1px solid #313131",
+          border: `1px solid ${isCorrection? "#313131" : "red" }`,
           borderRadius: 1.5,
           py: "2.5rem",
           px: "1.5rem ",
@@ -42,14 +43,14 @@ const PreviewAnswer = ({ questionNumber, questionExercisePerNumber, exerciseCorr
             letterSpacing: "0.09375rem",
             textTransform: "capitalize",
             mb: 3,
-          }}>{wrongAnswer}</Typography>
+          }}>{isCorrection === false ? "Wrong" : "Correct"}</Typography>
         </Stack>
         {questionExercisePerNumber}
         <Typography sx={{ mb: 2 }}>
           Correct Answer: <span>{exerciseCorrectAnswer}</span>
         </Typography>
         <Typography>
-          Your Answer: <span>{userAnswer}</span>
+          Your Answer: <span>{exerciseUserAnswer}</span>
         </Typography>
       </Box>
     </>

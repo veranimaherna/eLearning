@@ -15,7 +15,6 @@ const ExerciseGrade1 = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [showExerciseScoreComponent, setShowExerciseScoreComponent] = useState(false);
-  const [showPreviewAnswer, setShowPreviewAnswer] = useState(false)
 
   const [selectedOption, setSelectedOption] = useState([
     "",
@@ -30,8 +29,6 @@ const ExerciseGrade1 = () => {
     "",
   ]);
   const [userScore, setUserScore] = useState(0);
-
-  const [previewAnswerData, setPreviewAnswerData] = useState([])
 
   // const url = `${env.BASE_URL_BACKEND}login`;
   const urlExercise = `http://localhost:8000/exercise`;
@@ -60,7 +57,7 @@ const ExerciseGrade1 = () => {
         setError(null);
       })
       .catch((err) => {
-
+        
         setError(err.message);
         setData(null);
       })
@@ -69,28 +66,10 @@ const ExerciseGrade1 = () => {
       });
   }, []);
 
-  // console.log(data?.data.filter(data => data.grade_exercise === "2"))
-
-  const arrayDataExerciseQuestionLength = data?.data?.filter(
-    (questionGrade) => questionGrade.grade_exercise === gradeExercise
-  ).length;
-  const dataExerciseAnswer = data?.data?.filter(
-    (questionGrade) => questionGrade.grade_exercise === gradeExercise
-  )[activeStep]?.exercise_answer;
-
-  const arrayDataExerciseQuestion = data?.data?.filter(
-    (questionGrade) => questionGrade.grade_exercise === gradeExercise
-  );
-
   const handleOptionChange = (event, activeStep) => {
     event.preventDefault();
-    const newValue =
-    {
-      questionId: arrayDataExerciseQuestion[activeStep].id,
-      yourAnswer: event.target.value
-    }
-      ;
-    selectedOption[activeStep] = newValue;
+    const newdata = event.target.value;
+    selectedOption[activeStep] = newdata;
     setSelectedOption((prevState) => [...prevState]);
   };
 
@@ -112,12 +91,15 @@ const ExerciseGrade1 = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  // useEffect(() => {}, [handleSubmitModal]);
+
   const stepperMapping = () => {
     return (
       <>
         <Stepper
           sx={{ mb: 5 }}
           activeStep={activeStep}
+        // bgColor={themeStyled.palette.secondary}
         >
           {steps.map((label, index) => {
             const stepProps = {};
@@ -126,9 +108,11 @@ const ExerciseGrade1 = () => {
               <Step
                 key={label}
                 {...stepProps}
+              //   bgcolor={themeStyled.palette.secondary}
               >
                 <StepLabel
                   {...labelProps}
+                // bgcolor={themeStyled.palette.secondary}
                 >
                   {label}
                 </StepLabel>
@@ -140,60 +124,33 @@ const ExerciseGrade1 = () => {
     );
   };
 
-  const handleSubmitModal = () => {
-    // mapping exercise, cocokkan sama selectedOption
-    const arrayDataExerciseCorrectAnswer = data?.data
-      ?.filter(
-        (questionGrade1) => questionGrade1.grade_exercise === gradeExercise
-      )
-      .map((exerciseId) => exerciseId.exercise_answer);
+  const arrayDataExerciseQuestionLength = data?.data?.filter(
+    (questionGrade) => questionGrade.grade_exercise === gradeExercise
+  ).length;
+  const dataExerciseAnswer = data?.data?.filter(
+    (questionGrade) => questionGrade.grade_exercise === gradeExercise
+  )[activeStep]?.exercise_answer;
 
-    let score = 0;
-    selectedOption.forEach((val, idx) => {
-      if (val.yourAnswer === arrayDataExerciseCorrectAnswer[idx]) {
-        score = score + 1;
-      }
-    });
-    setUserScore(score);
-
-    closeModal();
-    setShowExerciseScoreComponent(true);
-    afterSubmit(score);
-
-    const previewAnswerArray = arrayDataExerciseQuestion.map(data => {
-      const checkAnswer = selectedOption.find(data1 => data1?.questionId === data.id)
-
-      return { ...data, ...{ userAnswer: checkAnswer?.yourAnswer, isCorrection: checkAnswer?.yourAnswer === data?.exercise_answer } }
-    })
-
-    setPreviewAnswerData(previewAnswerArray)
-  };
-
-  const afterSubmit = (userScore) => {
-    fetch(urlUserExercise, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: user.token,
-      },
-      body: JSON.stringify({
-        exercise_id_post: parseInt(gradeExercise),
-        user_id_post: parseInt(userId),
-        exercise_score_post: userScore,
-        exercise_status_post: "done",
-      }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => console.log(data));
-  };
+  const arrayDataExerciseQuestion = data?.data?.filter(
+    (questionGrade) => questionGrade.grade_exercise === gradeExercise
+  );
 
   const exerciseQuestionAndOptionsButton = () => {
     return (
       <>
         {activeStep < arrayDataExerciseQuestionLength ? (
           <>
+            {/* {console.log(data.data[activeStep].id, "test id")} */}
+            {/* <Suspense
+              fallback={
+                <Skeleton
+                  variant="rectangular"
+                  width={210}
+                  height={400}
+                  animation="wave"
+                />
+              }
+            > */}
             {loading ? (
               <Skeleton
                 variant="rectangular"
@@ -212,16 +169,16 @@ const ExerciseGrade1 = () => {
                   fontSize: "1.1rem",
                   color: "#313131",
                 }}
-                className="exercise"
               />
             )}
 
+            {/* </Suspense> */}
             <FormControl>
               <RadioGroup
                 aria-labelledby="option"
                 name="option"
                 id={`radioGroup${arrayDataExerciseQuestion[activeStep].id}`}
-                value={selectedOption[activeStep].yourAnswer}
+                value={selectedOption[activeStep]}
                 // error={errors.radioGroup}
                 // touched={touched.radioGroup}
                 onChange={(event) => handleOptionChange(event, activeStep)}
@@ -293,7 +250,7 @@ const ExerciseGrade1 = () => {
     );
   };
 
-  // console.log(userScore, "userScore")
+  const [showPreviewAnswer, setShowPreviewAnswer] = useState(false)
 
   const exerciseScoring = () => {
     return (
@@ -306,13 +263,51 @@ const ExerciseGrade1 = () => {
       </Box>
     );
   };
+  const handleSubmitModal = () => {
+    // mapping exercise, cocokkan sama selectedOption
+    const arrayDataExerciseCorrectAnswer = data?.data
+      ?.filter(
+        (questionGrade1) => questionGrade1.grade_exercise === gradeExercise
+      )
+      .map((exerciseId) => exerciseId.exercise_answer);
 
-  console.log(previewAnswerData, "previewAnswerData")
+    let score = 0;
+    selectedOption.forEach((val, idx) => {
+      if (val === arrayDataExerciseCorrectAnswer[idx]) {
+        score = score + 1;
+      }
+    });
+    setUserScore(score);
+   
+    closeModal();
+    setShowExerciseScoreComponent(true);
+    afterSubmit(score);
+  };
 
-  const questionExercisePerNumber = (questionData) => {
+  const afterSubmit = (userScore) => {
+    fetch(urlUserExercise, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: user.token,
+      },
+      body: JSON.stringify({
+        exercise_id_post: parseInt(gradeExercise),
+        user_id_post: parseInt(userId),
+        exercise_score_post: userScore,
+        exercise_status_post: "done",
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => console.log(data));
+  };
+
+  const questionExercisePerNumber = (index) => {
     return <div
       dangerouslySetInnerHTML={{
-        __html: questionData,
+        __html: data.data[index].exercise_question,
       }}
       style={{
         fontFamily: "Roboto",
@@ -323,9 +318,12 @@ const ExerciseGrade1 = () => {
     />
   }
 
-  const exerciseCorrectAnswer = (optionData) => {
-    const correctOption = optionData.ExerciseOptions.filter((option) => (
-      option.id.toString() === optionData.exercise_answer))[0]
+  const exerciseCorrectAnswer = (index) => {
+    const dataExerciseCorrectAnswer = data?.data?.filter(
+      (questionGrade1) => questionGrade1.grade_exercise === gradeExercise
+    )[index]?.exercise_answer;
+    const correctOption = data?.data[index]?.ExerciseOptions.filter((option) => (
+      option.id.toString() === dataExerciseCorrectAnswer))[0]
     const correctOptionText = correctOption?.option_text
     const correctOptionImage = correctOption?.option_image
     return <>
@@ -344,83 +342,93 @@ const ExerciseGrade1 = () => {
     </>
   }
 
-  const exerciseUserAnswer = (optionData) => {
-    const userAnswer = optionData.ExerciseOptions.filter((option) => (
-      option.id.toString() === optionData.userAnswer))[0]
-    const userAnswerOptionText = userAnswer === undefined ? "-" : userAnswer?.option_text
-    const userAnswerOptionImage = userAnswer === undefined ? "-" : userAnswer?.option_image
+  const exerciseUserAnswer = (index) => {
+    const userSelectedOption = data?.data[index]?.ExerciseOptions.filter((option) => (
+      option.id.toString() === selectedOption[index]))[0]
+    const userSelectedOptionText = userSelectedOption?.option_text
+    const userSelectedOptionImage = userSelectedOption?.option_image
     return <>
       {
-        userAnswerOptionText === "testOption" ? (
+        userSelectedOptionText === "testOption" ? (
           <div>
             <img
-              src={userAnswerOptionImage}
-              alt={`Option${userAnswer?.id}`}
+              src={userSelectedOptionImage}
+              alt={`Option${userSelectedOption?.id}`}
             />
           </div>
         ) : (
-          <Typography>{userAnswerOptionText}</Typography>
+          <Typography>{userSelectedOptionText}</Typography>
         )
       }
     </>
   }
 
+  const [wrongAnswer, setWrongAnswer] = useState(true)
+
+  const checkAnswer = (index) => {
+    const dataExerciseCorrectAnswer = data?.data?.filter(
+      (questionGrade1) => questionGrade1.grade_exercise === gradeExercise
+    )[index]?.exercise_answer;
+    const userSelectedOption = data?.data[index]?.ExerciseOptions.filter((option) => (
+      option.id.toString() === selectedOption[index]))[0]?.id
+
+    if (dataExerciseCorrectAnswer.toString() === userSelectedOption.toString()) {
+      setWrongAnswer(false)
+      return <p style={{ color: "#22bb33" }}>Correct</p>
+    } else {
+      setWrongAnswer(true)
+      return <p style={{ color: "#bb2124" }}>Wrong</p>
+    }
+  }
+
+
   const previewAnswerHandle = () => {
     return <>
-      {previewAnswerData.map(data => {
-        return <PreviewAnswer isCorrection={data.isCorrection} questionExercisePerNumber={questionExercisePerNumber(data.exercise_question)} exerciseCorrectAnswer={exerciseCorrectAnswer(data)} exerciseUserAnswer={exerciseUserAnswer(data)} />
-      })}
-      {/* {Array.from({length: arrayDataExerciseQuestionLength}, (_,i) => (
-        <PreviewAnswer key={i} />
-      ))} */}
+      {Array.from({ length: arrayDataExerciseQuestionLength }, (_, i) => (
+        <PreviewAnswer key={i} questionNumber={`${i + 1}`} questionExercisePerNumber={questionExercisePerNumber(i)} exerciseCorrectAnswer={exerciseCorrectAnswer(i)} userAnswer={exerciseUserAnswer(i)}
+        // wrongAnswer={checkAnswer(i)} 
+        />
+      ))}
     </>
   }
 
   return (
     <>
-      <Box sx={{
-        width: {xs: "100vw", xl:"2000px"},
-        display: { xl: "flex" },
-        justifyContent: { xl: "center" },
-        alignItems: { xl: "center" },
-      }}>
-        <Stack sx={{ my: 5, mx: 4, }}>
-          <Box
-            sx={{
-              pl: 2,
-              py: 2,
-              mb: 0.2,
-              color: "#fff",
-              fontSize: "1rem",
-              fontWeight: "500",
-              lineHeight: "1rem",
-              letterSpacing: "0.09375rem",
-              textTransform: "uppercase",
-              bgcolor: "#A7C0CD",
-              borderRadius: "0.5rem",
-            }}
-          >
-            Grade {gradeExercise}
-          </Box>
-          <Box sx={{ mt: 2, pl: 1, px: { md: 4 }, m: { md: 4 } }}>
-            {stepperMapping()}
-            {showExerciseScoreComponent
-              ? exerciseScoring()
-              : exerciseQuestionAndOptionsButton()}
-          </Box>
-          {showPreviewAnswer === true ?
-            <>
-              <Divider />
-              <Box sx={{ px: 4, mt: 4 }}>
-                <Typography>Preview Answer</Typography>
-                {previewAnswerHandle()}
-              </Box>
-            </>
-            :
-            <></>
-          }
-        </Stack>
-      </Box>
+      <Stack sx={{ my: 15, mx: 4 }}>
+        <Box
+          sx={{
+            pl: 2,
+            py: 2,
+            mb: 0.2,
+            color: "#fff",
+            fontSize: "1rem",
+            fontWeight: "500",
+            lineHeight: "1rem",
+            letterSpacing: "0.09375rem",
+            textTransform: "uppercase",
+            bgcolor: "#A7C0CD",
+            borderRadius: "0.5rem",
+          }}
+        >
+          Grade {gradeExercise}
+        </Box>
+        <Box sx={{ px: 4, m: 4 }}>
+          {stepperMapping()}
+          {showExerciseScoreComponent
+            ? exerciseScoring()
+            : exerciseQuestionAndOptionsButton()}
+        </Box>
+        {showPreviewAnswer === true ?
+          <>
+            <Divider />
+            <Box sx={{ px: 4, mt: 4 }}>
+              <Typography>Preview Answer</Typography>
+              {previewAnswerHandle()}
+            </Box>
+          </>
+          :
+          <></>}
+      </Stack>
     </>
   );
 };

@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const sequelize = require("./config/database");
 const multer = require("multer");
+const bodyParser = require("body-parser")
 const path = require("path");
 
 const {
@@ -35,14 +36,18 @@ require("./models/topicsModel");
 require("./models/userExerciseModel");
 require("./models/userLearningModel");
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")))
+
 // Multer configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "updateProfileImage/");
+    cb(null, "./public/uploads");
+    // cb(null, "updateProfileImage/");
   },
   filename: (req, file, cb) => {
     const extname = path.extname(file.originalname);
-    cb(null, `${Date.now()}${extname}`);
+    cb(null, `${path.parse(file.originalname).name}-${Date.now()}${extname}`);
   },
 });
 

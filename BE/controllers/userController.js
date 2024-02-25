@@ -79,6 +79,7 @@ exports.profileById = async (req, res) => {
 exports.updateAvatar = async (req, res) => {
   const userId = req.params.id;
   const profilePicturePath = req.file.path;
+  const finalImageUrl = req.protocol + "://" + req.get("host") + "/uploads/" + req.file.filename;
   try {
     const user = await User.findByPk(userId);
 
@@ -86,10 +87,10 @@ exports.updateAvatar = async (req, res) => {
       res.status(404).json({ error: "User not found" });
     }
 
-    user.profile_image = profilePicturePath;
+    user.profile_image = finalImageUrl;
     await user.save();
 
-    res.status(200).json({ message: "Profile picture updated successfully" });
+    res.status(200).json({ message: "Profile picture updated successfully", image: finalImageUrl });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });

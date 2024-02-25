@@ -3,17 +3,12 @@ import {
   Alert,
   Box,
   Button,
-  Divider,
-  FormControl,
   IconButton,
   InputAdornment,
-  InputLabel,
-  OutlinedInput,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
 import loginImg from "../assets/login.png";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -59,10 +54,11 @@ function Login() {
     <>
       <Box
         sx={{
-          pt: 15,
+          pt: { xs: 1,  md: 0 },
           mb: 5,
           display: "flex",
           justifyContent: "center",
+          alignItems: "center"
         }}
       >
         {message == "Logged in Succesfully" && (
@@ -78,15 +74,15 @@ function Login() {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: { xs: "column", md: "row" },
           justifyContent: "center",
-          gap: 5,
-          mb: 10,
+          alignItems: "center",
+          gap: { xs: 1, md: 5 },
+          mb: 10
         }}
-        className="boxLogin"
       >
-        <Box>
-          <img src={loginImg} style={{ width: "28rem" }} />
+        <Box className="boxLogin">
+          <img src={loginImg} />
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Formik
@@ -128,23 +124,23 @@ function Login() {
               return (
                 <Box sx={{ display: "flex", flexDirection: "column" }} className="boxFormLogin">
                   <Typography
-                  // sx={{
-                  //   color: "#313131",
-                  //   fontFamily: "Roboto",
-                  //   fontSize: "2.5rem",
-                  //   fontStyle: "normal",
-                  //   fontWeight: 500,
-                  //   lineHeight: "normal",
-                  //   mb: 3,
-                  // }}
+                    sx={{
+                      color: "#313131",
+                      fontFamily: "Roboto",
+                      fontSize: "2.5rem",
+                      fontStyle: "normal",
+                      fontWeight: 500,
+                      lineHeight: "normal",
+                      mb: 3,
+                      textAlign: { xs: "center", md: "left" }
+                    }}
                   >
                     Login
                   </Typography>
-                  <Form className="formLogin">
+                  <Form style={{ display: "flex", flexDirection: "column" }}>
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        // sx={{ width: "26.375rem", mb: 0.5 }}
                         label="Email"
                         variant="outlined"
                         placeholder="Input your email"
@@ -155,17 +151,11 @@ function Login() {
                         error={touched.email && Boolean(errors.email)}
                         helperText={touched.email && errors.email}
                       />
-                      {/* <ErrorMessage
-                        name="email"
-                        component="span"
-                        className="error"
-                      /> */}
                     </Stack>
 
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        // sx={{ width: "26.375rem", mb: 0.5 }}
                         label="Password"
                         placeholder="Input your Password"
                         type={showPassword ? "text" : "password"}
@@ -192,11 +182,6 @@ function Login() {
                         error={touched.password && Boolean(errors.password)}
                         helperText={touched.password && errors.password}
                       />
-                      {/* <ErrorMessage
-                        name="password"
-                        component="span"
-                        className="error"
-                      /> */}
                     </Stack>
                     <Button
                       variant="contained"
@@ -205,7 +190,7 @@ function Login() {
                         fontSize: "18px",
                         lineHeight: "16px",
                         letterSpacing: "1px",
-                        // bgcolor: "#FE7860",
+                        bgcolor: "#FE7860",
                         color: "#fff",
                         mb: 1.5,
                         py: "1rem",

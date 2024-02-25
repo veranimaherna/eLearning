@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Grid, Stack, Typography } from "@mui/material";
 import logo from "../assets/logoTreble.png";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import ExerciseList from "../components/ExerciseList";
@@ -55,19 +55,19 @@ const Exercise = () => {
 
           const userScoreByGrade2 = actualDataUserExercise?.data?.filter((gradeExercise) => gradeExercise.ExerciseId === 2)
 
-          const userLastDataGrade2 = userScoreByGrade2.length > 0 ? userScoreByGrade2[userScoreByGrade2.length -1] : {exercise_score: "-" }
+          const userLastDataGrade2 = userScoreByGrade2.length > 0 ? userScoreByGrade2[userScoreByGrade2.length - 1] : { exercise_score: "-" }
 
           setUserLastScoreGrade2(userLastDataGrade2.exercise_score)
-          
+
           const userScoreByGrade3 = actualDataUserExercise?.data?.filter((gradeExercise) => gradeExercise.ExerciseId === 3)
-          
-          const userLastDataGrade3 = userScoreByGrade3.length > 0 ? userScoreByGrade3[userScoreByGrade3.length -1] : {exercise_score: "-" }
+
+          const userLastDataGrade3 = userScoreByGrade3.length > 0 ? userScoreByGrade3[userScoreByGrade3.length - 1] : { exercise_score: "-" }
 
           setUserLastScoreGrade3(userLastDataGrade3.exercise_score)
 
         })
         .catch((err) => {
-          
+
           setError(err.message);
           setDataUserExercise(null);
         })
@@ -95,7 +95,7 @@ const Exercise = () => {
           setError(null);
         })
         .catch((err) => {
-          
+
           setError(err.message);
           setDataExercise(null);
         })
@@ -121,36 +121,68 @@ const Exercise = () => {
   const exerciseLists = () => {
     return <>
       {Array.from({ length: uniquesValues.length }, (_, i) => (
-        <ExerciseList key={i} uniquesValues={uniquesValues} gradeExerciseList={uniquesValues[`${i}`]} detailExerciseListArray={detailExerciseListArray[`${i}`]} userLastScoreGrade1= {userLastScoreGrade1} userLastScoreGrade2 = {userLastScoreGrade2} userLastScoreGrade3 = {userLastScoreGrade3}/>
+        <ExerciseList key={i} uniquesValues={uniquesValues} gradeExerciseList={uniquesValues[`${i}`]} detailExerciseListArray={detailExerciseListArray[`${i}`]} userLastScoreGrade1={userLastScoreGrade1} userLastScoreGrade2={userLastScoreGrade2} userLastScoreGrade3={userLastScoreGrade3} />
       ))}
     </>
   }
 
   return (
     <>
-      <Box sx={{ my: 15, px: 4 }}>
+      <Box sx={{
+        width: "100vw",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}>
         <Box
           sx={{
-            pl: 2,
-            py: 2,
-            mb: 3,
-            color: "#fff",
-            fontSize: "1.1rem",
-            fontWeight: "500",
-            lineHeight: "1rem",
-            letterSpacing: "0.09375rem",
-            textTransform: "capitalize",
-            bgcolor: "#A7C0CD",
-            borderRadius: "0.5rem",
-            fontFamily: "Roboto",
+            mb: 2,
+            display: "flex",
+            justifyContent: "center",
           }}
         >
-          Let’s practice what you’ve learned!
+          {loading && <Alert severity="info">A moment please...</Alert>}
+          {error && (
+            <Alert severity="warning">
+              There is a problem fetching the data
+            </Alert>
+          )}
         </Box>
-        <Stack direction="row" spacing={4}>
-          {exerciseLists()}
-        </Stack>
+        {dataExercise &&
+          <Box
+            sx={{
+              pt: 2,
+              mb: 15,
+              px: 4,
+              maxWidth: "1536px",
+            }}>
+            <Box
+              sx={{
+                pl: 2,
+                py: 2,
+                mb: 3,
+                color: "#fff",
+                fontSize: "1.1rem",
+                fontWeight: "500",
+                lineHeight: "1rem",
+                letterSpacing: "0.09375rem",
+                textTransform: "capitalize",
+                bgcolor: "#A7C0CD",
+                borderRadius: "0.5rem",
+                fontFamily: "Roboto",
+              }}
+            >
+              Let’s practice what you’ve learned!
+            </Box>
+            <Stack direction="row" spacing={4} >
+              <Grid container>
+                {exerciseLists()}
+              </Grid>
+            </Stack>
+          </Box>
+        }
       </Box>
+
     </>
   );
 };

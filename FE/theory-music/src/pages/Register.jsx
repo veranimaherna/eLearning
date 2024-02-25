@@ -64,10 +64,11 @@ function Register() {
     <>
       <Box
         sx={{
-          pt: 15,
+          pt: { xs: 1, md: 0 },
           mb: 5,
           display: "flex",
           justifyContent: "center",
+          alignItems: "center"
         }}
       >
         {message == "User Created" && (
@@ -83,10 +84,11 @@ function Register() {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: { xs: "column", md: "row" },
           justifyContent: "center",
+          alignItems: "center",
           gap: 5,
-          mb: 10,
+          mb: 10
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -120,7 +122,7 @@ function Register() {
             {(formik) => {
               const { errors, touched, isValid, dirty } = formik;
               return (
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Box sx={{ display: "flex", flexDirection: "column" }} className="boxFormRegister">
                   <Typography
                     sx={{
                       color: "#313131",
@@ -130,6 +132,7 @@ function Register() {
                       fontWeight: 500,
                       lineHeight: "normal",
                       mb: 3,
+                      textAlign: { xs: "center", md: "left" }
                     }}
                   >
                     Sign Up
@@ -138,7 +141,6 @@ function Register() {
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        sx={{ width: "26.375rem", mb: 0.5 }}
                         id="name"
                         label="Name"
                         variant="outlined"
@@ -155,7 +157,6 @@ function Register() {
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        sx={{ width: "26.375rem", mb: 0.5 }}
                         label="Email"
                         variant="outlined"
                         placeholder="Input your email"
@@ -173,7 +174,6 @@ function Register() {
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        sx={{ width: "26.375rem", mb: 0.5 }}
                         label="Password"
                         placeholder="Input your Password"
                         type={showPassword ? "text" : "password"}
@@ -208,7 +208,6 @@ function Register() {
                     <Stack sx={{ mb: 3 }}>
                       <Field
                         as={TextField}
-                        sx={{ width: "26.375rem", mb: 0.5 }}
                         label="Confirm Password"
                         placeholder="Input your Password"
                         type={showConfirmPassword ? "text" : "password"}
@@ -315,8 +314,8 @@ function Register() {
             }}
           </Formik>
         </Box>
-        <Box>
-          <img src={registerImg} style={{ width: "35rem" }} />
+        <Box className="boxRegisterImage">
+          <img src={registerImg} />
         </Box>
       </Box>
     </>
