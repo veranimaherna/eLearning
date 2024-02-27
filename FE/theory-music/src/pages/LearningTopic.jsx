@@ -52,7 +52,7 @@ const LearningTopic = () => {
           setError(null);
         })
         .catch((err) => {
-          
+
           setError(err.message);
           setDataLearning(null);
         })
@@ -88,7 +88,7 @@ const LearningTopic = () => {
           setError(null);
         })
         .catch((err) => {
-          
+
           setError(err.message);
           setDataTopic(null);
         })
@@ -128,7 +128,7 @@ const LearningTopic = () => {
 
   return (
     <>
-      <Stack sx={{ my: 15, mx: 4 }}>
+      <Stack sx={{ my: 8, mx: 4 }}>
         <Box
           sx={{
             pl: 2,
@@ -155,12 +155,12 @@ const LearningTopic = () => {
                 clickButton == "topic"
                   ? { py: 2, pl: 2, pr: 20, bgcolor: "#EDF4F7" }
                   : {
-                      py: 2,
-                      pl: 2,
-                      pr: 20,
-                      bgcolor: "#fffff",
-                      color: "#313131",
-                    }
+                    py: 2,
+                    pl: 2,
+                    pr: 20,
+                    bgcolor: "#fffff",
+                    color: "#313131",
+                  }
               }
               onClick={() => {
                 setClickButton("topic");
@@ -171,17 +171,17 @@ const LearningTopic = () => {
                 sx={
                   clickButton == "topic"
                     ? {
-                        margin: 0,
-                        padding: 0,
-                        textAlign: "left",
-                        color: "secondary",
-                      }
+                      margin: 0,
+                      padding: 0,
+                      textAlign: "left",
+                      color: "secondary",
+                    }
                     : {
-                        margin: 0,
-                        padding: 0,
-                        textAlign: "left",
-                        color: "#313131",
-                      }
+                      margin: 0,
+                      padding: 0,
+                      textAlign: "left",
+                      color: "#313131",
+                    }
                 }
                 onClick={() => {
                   setClickButton("topic");
@@ -205,17 +205,17 @@ const LearningTopic = () => {
                 sx={
                   clickButton == "quiz"
                     ? {
-                        margin: 0,
-                        padding: 0,
-                        textAlign: "left",
-                        color: "secondary",
-                      }
+                      margin: 0,
+                      padding: 0,
+                      textAlign: "left",
+                      color: "secondary",
+                    }
                     : {
-                        margin: 0,
-                        padding: 0,
-                        textAlign: "left",
-                        color: "#313131",
-                      }
+                      margin: 0,
+                      padding: 0,
+                      textAlign: "left",
+                      color: "#313131",
+                    }
                 }
                 onClick={() => {
                   setClickButton("quiz");
@@ -238,6 +238,7 @@ const LearningTopic = () => {
                   alt="minim"
                   style={{ width: "15px" }}
                 />
+                <img src="https://raw.githubusercontent.com/veranimaherna/eLearning/main/ASSETS/learningImage/topic3/key.jpg" alt="key" style={{ width: "300px" }} />
                 <div
                   dangerouslySetInnerHTML={{
                     __html: arrayDataLearning,
@@ -248,6 +249,7 @@ const LearningTopic = () => {
                     fontSize: "1.1rem",
                     color: "#313131",
                   }}
+                  className="learningTopic"
                 />
                 <Stack
                   display="flex"
@@ -262,7 +264,7 @@ const LearningTopic = () => {
                     Take Quiz
                   </Button>
                 </Stack>
-                {clickButton == "quiz" ? <LearningQuiz setClickButton= {setClickButton} clickButton={clickButton}/> : <></>}
+                {clickButton == "quiz" ? <LearningQuiz setClickButton={setClickButton} clickButton={clickButton} /> : <></>}
               </>
             )}
           </Box>
