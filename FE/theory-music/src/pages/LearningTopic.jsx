@@ -233,12 +233,6 @@ const LearningTopic = () => {
                 <Typography variant="h5" color={"#313131"}>
                   {arrayDataTopicTitle}
                 </Typography>
-                <img
-                  src="https://drive.google.com/uc?export=view&amp;id=1MfqeyCwoP4ODMUs6n_9YmybXcNWUarB9"
-                  alt="minim"
-                  style={{ width: "15px" }}
-                />
-                <img src="https://raw.githubusercontent.com/veranimaherna/eLearning/main/ASSETS/learningImage/topic3/key.jpg" alt="key" style={{ width: "300px" }} />
                 <div
                   dangerouslySetInnerHTML={{
                     __html: arrayDataLearning,
