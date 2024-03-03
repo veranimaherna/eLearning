@@ -2,7 +2,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 
-const LearningModal = (props) => {
+const LearningModal = ({ closeModal }) => {
   const { topicId } = useParams();
   const navigate = useNavigate();
   const nextTopicLearning = parseInt(topicId) + 1;
@@ -72,7 +72,7 @@ const LearningModal = (props) => {
               bgcolor: "#A7C0CD",
               color: "#FFF",
             }}
-            onClick={() => navigate("/learning/topic/" + topicId)}
+            onClick={closeModal}
           >
             Review
           </Button>
