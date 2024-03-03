@@ -676,7 +676,7 @@ const Home = () => {
                   fontWeight: 400,
                   textTransform: "uppercase",
                 }}
-                onClick={() => navigate("/learning")}
+                onClick={() => navigate("/register")}
               >
                 Learn Now
               </Button>
@@ -684,7 +684,7 @@ const Home = () => {
           </Box>
         )}
       </Box>
-    </ThemeProvider >
+    </ThemeProvider>
   );
 };
 

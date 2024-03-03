@@ -71,7 +71,7 @@ export default function LearningQuiz(props) {
         setError(null);
       })
       .catch((err) => {
-        
+
         setError(err.message);
         setDataQuiz(null);
       })
@@ -80,27 +80,21 @@ export default function LearningQuiz(props) {
       });
   }, []);
 
-  const quizAnswer = dataQuiz?.data[activeStep]?.quiz_answer;
-
-
   const handleNext = () => {
-    if(selectedOption[activeStep] === "") {
-      setWrongAnswer(true)
-      setValidationAnswer("Please select your answer.");
-      return
-    }
-
-    if (quizAnswer === selectedOption[activeStep]) {
-      setValidationAnswer("Your answer is correct!");
-      setWrongAnswer(false);
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    } else if (quizAnswer !== selectedOption[activeStep]) {
+    if(activeStep === steps.length-1){
+      openModal();
+    } else {
+      if (quizAnswer === selectedOption[activeStep]) {
+        setWrongAnswer(false);
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      } else if (quizAnswer !== selectedOption[activeStep]) {
         setValidationAnswer("Sorry, it's still wrong!");
         setWrongAnswer(true);
       } else {
-          setValidationAnswer("Please select your answer.");
-          setWrongAnswer(true);
-        }
+        setValidationAnswer("Please select your answer.");
+        setWrongAnswer(true);
+      }
+    }
   };
 
   const handleBack = () => {
@@ -160,13 +154,17 @@ export default function LearningQuiz(props) {
   const arrayDataQuizQuestionFinal = dataQuiz?.data?.filter(
     (questionQuiz) => questionQuiz.TopicId === parseInt(topicId)
   );
+  // console.log("arrayDataQuizQuestionFinal", arrayDataQuizQuestionFinal)
+  // const quizAnswer = dataQuiz?.data[activeStep]?.quiz_answer;
+  const quizAnswer = dataQuiz?.data?.filter(
+    (questionQuiz) => questionQuiz.TopicId === parseInt(topicId))[activeStep]?.quiz_answer
   // const dataQuizTest = arrayDataQuizQuestionFinal[1].id
   // console.log(arrayDataQuizQuestionFinal[activeStep]?.id, "arrayDataQuizQuestionFinal0");
   // console.log(dataQuizTest, "dataQuizTest");
   const quizQuestionAndOptionsButton = () => {
     return (
       <>
-        {activeStep < arrayDataQuizQuestion ? ( loading ? <Alert severity="info">A moment please...</Alert> :
+        {activeStep < arrayDataQuizQuestion ? (loading ? <Alert severity="info">A moment please...</Alert> :
           <>
             {/* {console.log(data.data[activeStep].id, "test id")} */}
             {/* <Suspense
@@ -189,6 +187,7 @@ export default function LearningQuiz(props) {
                 fontSize: "1.1rem",
                 color: "#313131",
               }}
+              className="learningQuiz"
             />
             {/* </Suspense> */}
             <FormControl error={wrongAnswer}>
@@ -200,11 +199,11 @@ export default function LearningQuiz(props) {
                 // error={errors.radioGroup}
                 // touched={touched.radioGroup}
                 onChange={(event) => handleOptionChange(event, activeStep)}
-                // value={selectedOption}
-                // checked={id === value}
+              // value={selectedOption}
+              // checked={id === value}
               >
                 <Stack direction="column" spacing={2} marginTop={2}>
-                  {dataQuiz.data[activeStep].QuizOptions.map((option) => (
+                  {arrayDataQuizQuestionFinal[activeStep].QuizOptions.map((option) => (
                     <FormControlLabel
                       key={option.id}
                       value={option.id.toString()}
@@ -248,21 +247,19 @@ export default function LearningQuiz(props) {
                 variant="contained"
                 onClick={handleNext}
                 sx={{ textTransform: "capitalize" }}
-                // disabled={wrongAnswer}
+              // disabled={wrongAnswer}
               >
                 {activeStep === steps.length - 1 ? "Finish" : "Next"}
               </Button>
               <Modal open={isModalOpen} onClose={closeModal}>
                 <LearningModal
                   closeModal={() => closeModal()}
-                  // handleSubmitModal={() => handleSubmitModal()}
                 />
               </Modal>
-              {/* {console.log(userScore, "userScoreFinal")} */}
             </Box>
           </>
-        ) : 
-        <Alert severity="info">A moment please...</Alert>
+        ) :
+          <Alert severity="info">A moment please...</Alert>
         }
       </>
     );

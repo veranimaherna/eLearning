@@ -19,7 +19,7 @@
     width: 350px
 }
 
-.learningTopic table, th, td {
+.learningTopic table, .learningTopic th, .learningTopic td {
     border: 1px solid black;
     border-collapse: collapse;
 }

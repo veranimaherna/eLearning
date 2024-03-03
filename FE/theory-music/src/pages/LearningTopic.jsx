@@ -146,9 +146,9 @@ const LearningTopic = () => {
         >
           Grade {gradeLearningTopic}
         </Box>
-        <Stack sx={{ display: "flex", flexDirection: "row" }}>
+        <Stack sx={{ display: "flex", flexDirection: { xs: "column", lg: "row" } }}>
           <Box
-            sx={{ height: "400px", py: 2, border: 1, borderRadius: "0.2rem" }}
+            sx={{ height: { xs: "100px", lg: "400px" }, py: 2, border: 1, borderRadius: "0.2rem" }}
           >
             <Box
               sx={
@@ -225,7 +225,7 @@ const LearningTopic = () => {
               </Button>
             </Box>
           </Box>
-          <Box sx={{ px: 8, py: 4, width: "100%" }}>
+          <Box sx={{ px: { xs: 0, lg: 8 }, py: 4, width: "100%" }}>
             {clickButton == "quiz" ? (
               <LearningQuiz />
             ) : (
