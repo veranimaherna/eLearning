@@ -16,11 +16,15 @@ const LearningModal = ({ closeModal }) => {
           justifyContent: "center",
           flexDirection: "column",
           py: 5,
-          px: 5,
+          px: { xs: 3, sm: 5 },
           gap: 1.5,
           bgcolor: "#EDF4F7",
-          width: "500px",
+          width: {xs:"80%", sm:"50%", lg: "30%"},
           borderRadius: "1rem",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
         }}
       >
         <Typography
@@ -97,6 +101,7 @@ const LearningModal = ({ closeModal }) => {
             onClick={() => {
               if (nextTopicLearning <= 15) {
                 navigate("/learning/topic/" + nextTopicLearning);
+                navigate(0)
               } else {
                 setTabValue("");
                 navigate("/");
