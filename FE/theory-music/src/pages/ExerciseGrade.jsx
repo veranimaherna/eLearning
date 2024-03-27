@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Divider, FormControl, FormControlLabel, Modal, Radio, RadioGroup, Skeleton, Stack, Step, StepLabel, Stepper, Typography } from "@mui/material";
+import { Alert, Box, Button, Divider, FormControl, FormControlLabel, Modal, Radio, RadioGroup, Skeleton, Stack, Step, StepLabel, Stepper, Typography, useMediaQuery } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ExerciseScoreFail from "../components/ExerciseScoreFail";
@@ -8,7 +8,7 @@ import PreviewAnswer from "../components/PreviewAnswer";
 
 const steps = ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q10"];
 
-const ExerciseGrade1 = () => {
+const ExerciseGrade = () => {
   const { gradeExercise } = useParams();
   const [activeStep, setActiveStep] = React.useState(0);
   const [loading, setLoading] = useState(true);
@@ -167,6 +167,7 @@ const ExerciseGrade1 = () => {
     })
 
     setPreviewAnswerData(previewAnswerArray)
+    console.log(arrayDataExerciseCorrectAnswer, "arrayDataExerciseCorrectAnswer")
   };
 
   const afterSubmit = (userScore) => {
@@ -239,6 +240,7 @@ const ExerciseGrade1 = () => {
                           <img
                             src={option.option_image}
                             alt={`Option${option.id}`}
+                            style={{ height: "100%", width: "100%" }}
                           />
                         ) : (
                           <Typography>{option.option_text}</Typography>
@@ -376,10 +378,12 @@ const ExerciseGrade1 = () => {
     </>
   }
 
+  const smallScreen = useMediaQuery("(max-width: 767px)");
+
   return (
     <>
       <Box sx={{
-        width: {xs: "100vw", xl:"2000px"},
+        width: { xs: "100vw", xl: "2000px" },
         display: { xl: "flex" },
         justifyContent: { xl: "center" },
         alignItems: { xl: "center" },
@@ -403,7 +407,13 @@ const ExerciseGrade1 = () => {
             Grade {gradeExercise}
           </Box>
           <Box sx={{ mt: 2, pl: 1, px: { md: 4 }, m: { md: 4 } }}>
-            {stepperMapping()}
+            {smallScreen ?
+              <Typography sx={{ mt: 2, mb: 1, fontWeight: 600 }}>
+                Quiz No.{activeStep + 1}
+              </Typography>
+              :
+              stepperMapping()
+            }
             {showExerciseScoreComponent
               ? exerciseScoring()
               : exerciseQuestionAndOptionsButton()}
@@ -411,7 +421,7 @@ const ExerciseGrade1 = () => {
           {showPreviewAnswer === true ?
             <>
               <Divider />
-              <Box sx={{ px: 4, mt: 4 }}>
+              <Box sx={{ mt: 4 }}>
                 <Typography>Preview Answer</Typography>
                 {previewAnswerHandle()}
               </Box>
@@ -425,4 +435,4 @@ const ExerciseGrade1 = () => {
   );
 };
 
-export default ExerciseGrade1;
+export default ExerciseGrade;

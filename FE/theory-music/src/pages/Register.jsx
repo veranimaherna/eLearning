@@ -77,7 +77,7 @@ function Register() {
           </Alert>
         )}
         {message == "Failed to Register" && (
-          <Alert severity="error">The user already exists.</Alert>
+          <Alert severity="error">User account already exists.</Alert>
         )}
       </Box>
 

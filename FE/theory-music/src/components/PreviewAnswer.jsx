@@ -13,7 +13,7 @@ const PreviewAnswer = ({ questionNumber, questionExercisePerNumber, exerciseCorr
           py: "2.5rem",
           px: "1.5rem ",
           my: 2,
-          width: "45rem",
+          width: "90%",
         }}
       >
         <Stack

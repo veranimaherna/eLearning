@@ -1,9 +1,9 @@
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Alert,
   Avatar,
   Box,
   Button,
+  IconButton,
   Modal,
   Snackbar,
   Stack,
@@ -13,6 +13,7 @@ import {
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CloseIcon from '@mui/icons-material/Close';
 
 function stringAvatar(name) {
   let myName = name.split(" ");
@@ -298,8 +299,10 @@ const Profile = () => {
                     alignItems: "center",
                     justifyContent: "center",
                     flexDirection: "column",
-                    py: 5,
-                    px: 5,
+                    pt: 1,
+                    pb: 7,
+                    pl: 5,
+                    pr: 2,
                     gap: 3,
                     width: "300px",
                     borderRadius: "1rem",
@@ -308,6 +311,17 @@ const Profile = () => {
                     left: "50%",
                     transform: "translate(-50%, -50%)"
                   }}>
+                    <Box sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "right"
+                    }}
+                      onClick={handleCloseEditPicture}
+                    >
+                      <IconButton>
+                        <CloseIcon />
+                      </IconButton>
+                    </Box>
                     {saveImage ?
                       <label htmlFor="profile-image">
                         <Avatar
@@ -332,7 +346,7 @@ const Profile = () => {
                       accept="image/*"
                       style={{ paddingLeft: "10px" }}
                     />
-                    <Button variant="outlined" onClick={uploadImage}>
+                    <Button variant="contained" onClick={uploadImage}>
                       Update Picture
                     </Button>
                   </Box>

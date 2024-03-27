@@ -21,7 +21,6 @@ import logoBottom from "../assets/logoBottom.png";
 import "@fontsource/nunito/800.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { NoEncryption } from "@mui/icons-material";
 
 const themeStyled = createTheme({
   palette: {

@@ -15,7 +15,7 @@ import React from "react";
 import Profile from "./pages/Profile";
 import LearningTopic from "./pages/LearningTopic";
 import "./App.css";
-import ExerciseGrade1 from "./pages/ExerciseGrade1";
+import ExerciseGrade from "./pages/ExerciseGrade";
 import { Typography } from "@mui/material";
 import ChangePassword from "./pages/ChangePassword";
 
@@ -66,7 +66,7 @@ const router = createBrowserRouter([
       },
       {
         path: `/exercise/grade/:gradeExercise`,
-        element: <ExerciseGrade1 />,
+        element: <ExerciseGrade />,
       },
       {
         path: "/profile",

@@ -128,7 +128,7 @@ const LearningTopic = () => {
 
   return (
     <>
-      <Stack sx={{ my: 8, mx: 4 }}>
+      <Stack sx={{ my: 5, mx: 4 }}>
         <Box
           sx={{
             pl: 2,

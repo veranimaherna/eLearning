@@ -20,6 +20,7 @@ import {
   RadioGroup,
   Skeleton,
   Stack,
+  useMediaQuery,
 } from "@mui/material";
 
 const steps = ["Q1", "Q2", "Q3", "Q4", "Q5"];
@@ -81,7 +82,7 @@ export default function LearningQuiz(props) {
   }, []);
 
   const handleNext = () => {
-    if(activeStep === steps.length-1){
+    if (activeStep === steps.length - 1) {
       openModal();
     } else {
       if (quizAnswer === selectedOption[activeStep]) {
@@ -265,10 +266,11 @@ export default function LearningQuiz(props) {
     );
   };
 
+  const smallScreen = useMediaQuery("(max-width: 767px)");
+
   return (
     <ThemeProvider theme={themeStyled}>
       <Box sx={{ width: "100%" }}>
-        {stepperMapping()}
         {activeStep === steps.length ? (
           <React.Fragment>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -277,7 +279,14 @@ export default function LearningQuiz(props) {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>Quiz {activeStep + 1}</Typography>
+            {
+              smallScreen ?
+                <Typography sx={{ mt: 2, mb: 1, fontWeight: 600 }}>
+                  Quiz No.{activeStep + 1}
+                </Typography>
+                :
+                stepperMapping()
+            }
             {quizQuestionAndOptionsButton()}
           </React.Fragment>
         )}
