@@ -23,6 +23,10 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome To My API" });
 });
 
+app.get('/test', (req, res) => {
+  res.send('This is my test route..... ')
+})
+
 //migrate
 require("./models/userModel");
 require("./models/exerciseModel");

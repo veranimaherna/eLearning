@@ -4,6 +4,7 @@
 /FE/theory-music/node_modules
 /BE/node_modules
 /BE/updateProfileImage
+/BE/vercel.json
 
 /.pnp
 .pnp.js
