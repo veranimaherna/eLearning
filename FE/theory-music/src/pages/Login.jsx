@@ -5,6 +5,7 @@ import {
   Button,
   IconButton,
   InputAdornment,
+  Link,
   Stack,
   TextField,
   Typography,
@@ -54,7 +55,7 @@ function Login() {
     <>
       <Box
         sx={{
-          pt: { xs: 1,  md: 0 },
+          pt: { xs: 1, md: 0 },
           mb: 5,
           display: "flex",
           justifyContent: "center",
@@ -182,6 +183,7 @@ function Login() {
                         error={touched.password && Boolean(errors.password)}
                         helperText={touched.password && errors.password}
                       />
+                      <Link href="#" sx={{ textAlign: "right" }}>Forget Password?</Link>
                     </Stack>
                     <Button
                       variant="contained"
