@@ -3,13 +3,21 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   Modal,
   Snackbar,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import PhoneIcon from '@mui/icons-material/Phone';
+import EmailIcon from '@mui/icons-material/Email';
+import BrowseGalleryIcon from '@mui/icons-material/BrowseGallery';
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -52,6 +60,8 @@ const Profile = () => {
   const [new_name, setNew_name] = useState("");
   const [message, setMessage] = useState("");
   const [isChange, setIsChange] = useState(false);
+
+  const [clickButton, setClickButton] = useState("profile")
 
 
   const userId = localStorage.getItem("userId");
@@ -216,213 +226,376 @@ const Profile = () => {
             Changes is updated successfully
           </Alert>
         </Snackbar>)}
-      <Stack
-        sx={{
-          mt: { xs: 2, md: 6 },
-          mb: { xs: 8, md: 16 },
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-
-        {message == "Profile picture updated successfully" && (
-          <Snackbar
-            open={openAlert}
-            autoHideDuration={10000}
-            onClose={handleCloseAlert}
-          >
-            <Alert onClose={handleCloseAlert} severity="success">
-              Updated succesfully!
-            </Alert>
-          </Snackbar>
-        )}
-
-        <Typography
-          sx={{
-            color: "#313131",
-            fontFamily: "Roboto",
-            fontSize: "2.5rem",
-            fontStyle: "normal",
-            fontWeight: 500,
-            lineHeight: "normal",
-            mb: 5,
-          }}
-        >
-          Setting Profile
-        </Typography>
-
-        {loading ? (
+      <Stack sx={{ my: 5, mx: 4 }}>
+        <Stack sx={{ display: "flex", flexDirection: { xs: "column", lg: "row" } }}>
           <Box
-            sx={{
-              pt: { xs: 1, md: 0 },
-              mb: 5,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
+            sx={{ height: { xs: "100px", lg: "400px" }, py: 2, border: 1, borderRadius: "0.2rem", flexDirection: { xs: "row", lg: "column" } }}
           >
-            <Alert severity="info">A moment please...</Alert>
-          </Box>
-        ) : (
-          <>
-            {dataUser?.data.profile_image ?
-              <label htmlFor="profile-image">
-                <Avatar
-                  src={dataUser?.data.profile_image}
-                  sx={{
-                    width: 100,
-                    height: 100,
-                    border: 1
-                  }}
-                />
-              </label>
-              :
-              <Avatar
-                {...stringAvatar(userName)}
-              />
-            }
-
-            <Stack sx={{ m: 2 }}>
-              <Button variant="outlined" onClick={handleOpenEditPicture}>
-                Edit Picture
-              </Button>
-              {openEditPictureModal ?
-                <Modal
-                  open={openEditPictureModal}
-                  onClose={handleCloseEditPicture}
-                >
-                  <Box sx={{
-                    bgcolor: "#FFFFFF",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    pt: 1,
-                    pb: 7,
-                    pl: 5,
-                    pr: 2,
-                    gap: 3,
-                    width: "300px",
-                    borderRadius: "1rem",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)"
-                  }}>
-                    <Box sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "right"
-                    }}
-                      onClick={handleCloseEditPicture}
-                    >
-                      <IconButton>
-                        <CloseIcon />
-                      </IconButton>
-                    </Box>
-                    {saveImage ?
-                      <label htmlFor="profile-image">
-                        <Avatar
-                          src={image}
-                          sx={{
-                            width: 100,
-                            height: 100,
-                            border: 1
-                          }}
-                        />
-                      </label>
-                      :
-                      <Avatar
-                        {...stringAvatar(userName)}
-                      />
-                    }
-
-                    <input
-                      type="file"
-                      id="profileImage"
-                      onChange={handleUpdatePicture}
-                      accept="image/*"
-                      style={{ paddingLeft: "10px" }}
-                    />
-                    <Button variant="contained" onClick={uploadImage}>
-                      Update Picture
-                    </Button>
-                  </Box>
-                </Modal>
-                : <></>}
-
-              <Button variant="outlined" sx={{ mt: 2 }} onClick={() => navigate("/changePassword")}>
-                Change Password
-              </Button>
-            </Stack>
-
-            <table style={{ marginBottom: " 1rem" }}>
-              <tbody>
-                <tr style={{ height: "80px" }}>
-                  <td style={{ width: "60px" }}>
-                    <Typography>Name</Typography>
-                  </td>
-                  <td>
-                    <TextField
-                      sx={{ width: { xs: "15rem", sm: "25rem" }, textTransform: "capitalize" }}
-                      id="name"
-                      name="new_name"
-                      variant="outlined"
-                      defaultValue={userName.toUpperCase()}
-                      size="small"
-                      onChange={handleChange}
-                    />
-                  </td>
-                </tr>
-                <tr style={{ height: "60px" }}>
-                  <td>
-                    <Typography>Email</Typography>
-                  </td>
-                  <td>
-                    {loading ? (
-                      <p>wait...</p>
-                    ) : (
-                      <TextField
-                        id="email"
-                        name="email"
-                        variant="outlined"
-                        defaultValue={userEmail}
-                        size="small"
-                        sx={{ width: { xs: "15rem", sm: "25rem" } }}
-                        disabled={true}
-                      />
-                    )}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <Button
-              variant="contained"
-              size="large"
-              sx={{
-                fontSize: "18px",
-                lineHeight: "16px",
-                letterSpacing: "1px",
-                paddingTop: "1rem",
-                paddingBottom: "1rem",
-                color: "#ffffff",
-                backgroundColor: (isChange == true) ? "#FE7860" : "",
-                textTransform: "capitalize",
-                width: { xs: "19rem", sm: "30rem" },
+            <Box
+              sx={
+                clickButton == "profile"
+                  ? { py: 2, pl: 2, pr: { xs: 0, lg: 20 }, bgcolor: "#EDF4F7" }
+                  : {
+                    py: 2,
+                    pl: 2,
+                    pr: { xs: 0, lg: 20 },
+                    bgcolor: "#fffff",
+                    color: "#313131",
+                  }
+              }
+              onClick={() => {
+                setClickButton("profile");
               }}
-              type="submit"
-              onClick={handleSave}
-              disabled={isChange == false}
             >
-              Save
-            </Button>
-          </>
-        )}
+              <Button
+                variant="text"
+                sx={
+                  clickButton == "profile"
+                    ? {
+                      margin: 0,
+                      padding: 0,
+                      textAlign: "left",
+                      color: "secondary",
+                    }
+                    : {
+                      margin: 0,
+                      padding: 0,
+                      textAlign: "left",
+                      color: "#313131",
+                    }
+                }
+                onClick={() => {
+                  setClickButton("profile");
+                }}
+              >
+                Setting Profile
+              </Button>
+            </Box>
+            <Box
+              sx={
+                clickButton == "aboutUs"
+                  ? { py: 2, pl: 2, pr: 20, bgcolor: "#EDF4F7" }
+                  : { py: 2, pl: 2, pr: 20, bgcolor: "#ffffff" }
+              }
+              onClick={() => {
+                setClickButton("aboutUs");
+              }}
+            >
+              <Button
+                variant="text"
+                sx={
+                  clickButton == "aboutUs"
+                    ? {
+                      margin: 0,
+                      padding: 0,
+                      textAlign: "left",
+                      color: "secondary",
+                    }
+                    : {
+                      margin: 0,
+                      padding: 0,
+                      textAlign: "left",
+                      color: "#313131",
+                    }
+                }
+                onClick={() => {
+                  setClickButton("aboutUs");
+                }}
+              >
+                About Us
+              </Button>
+            </Box>
+          </Box>
+          <Box sx={{ px: { xs: 0, lg: 0 }, width: { xs: "100%", lg: "70%" }, height: "100vh" }}>
+            {clickButton == "profile" ? (<Stack
+              sx={{
+                mt: { xs: 2, md: 0 },
+                mb: { xs: 8, md: 0 },
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
 
+              {message == "Profile picture updated successfully" && (
+                <Snackbar
+                  open={openAlert}
+                  autoHideDuration={10000}
+                  onClose={handleCloseAlert}
+                >
+                  <Alert onClose={handleCloseAlert} severity="success">
+                    Updated succesfully!
+                  </Alert>
+                </Snackbar>
+              )}
 
+              <Typography
+                sx={{
+                  color: "#313131",
+                  fontFamily: "Roboto",
+                  fontSize: "2.5rem",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  lineHeight: "normal",
+                  mb: 5,
+                }}
+              >
+                Setting Profile
+              </Typography>
 
+              {loading ? (
+                <Box
+                  sx={{
+                    pt: { xs: 1, md: 0 },
+                    mb: 5,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  <Alert severity="info">A moment please...</Alert>
+                </Box>
+              ) : (
+                <>
+                  {dataUser?.data.profile_image ?
+                    <label htmlFor="profile-image">
+                      <Avatar
+                        src={dataUser?.data.profile_image}
+                        sx={{
+                          width: 100,
+                          height: 100,
+                          border: 1
+                        }}
+                      />
+                    </label>
+                    :
+                    <Avatar
+                      {...stringAvatar(userName)}
+                    />
+                  }
+
+                  <Stack sx={{ m: 2 }}>
+                    <Button variant="outlined" onClick={handleOpenEditPicture}>
+                      Edit Picture
+                    </Button>
+                    {openEditPictureModal ?
+                      <Modal
+                        open={openEditPictureModal}
+                        onClose={handleCloseEditPicture}
+                      >
+                        <Box sx={{
+                          bgcolor: "#FFFFFF",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          pt: 1,
+                          pb: 7,
+                          pl: 5,
+                          pr: 2,
+                          gap: 3,
+                          width: "300px",
+                          borderRadius: "1rem",
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)"
+                        }}>
+                          <Box sx={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "right"
+                          }}
+                            onClick={handleCloseEditPicture}
+                          >
+                            <IconButton>
+                              <CloseIcon />
+                            </IconButton>
+                          </Box>
+                          {saveImage ?
+                            <label htmlFor="profile-image">
+                              <Avatar
+                                src={image}
+                                sx={{
+                                  width: 100,
+                                  height: 100,
+                                  border: 1
+                                }}
+                              />
+                            </label>
+                            :
+                            <Avatar
+                              {...stringAvatar(userName)}
+                            />
+                          }
+
+                          <input
+                            type="file"
+                            id="profileImage"
+                            onChange={handleUpdatePicture}
+                            accept="image/*"
+                            style={{ paddingLeft: "10px" }}
+                          />
+                          <Button variant="contained" onClick={uploadImage}>
+                            Update Picture
+                          </Button>
+                        </Box>
+                      </Modal>
+                      : <></>}
+
+                    <Button variant="outlined" sx={{ mt: 2 }} onClick={() => navigate("/changePassword")}>
+                      Change Password
+                    </Button>
+                  </Stack>
+
+                  <table style={{ marginBottom: " 1rem" }}>
+                    <tbody>
+                      <tr style={{ height: "80px" }}>
+                        <td style={{ width: "60px" }}>
+                          <Typography>Name</Typography>
+                        </td>
+                        <td>
+                          <TextField
+                            sx={{ width: { xs: "15rem", sm: "25rem" }, textTransform: "capitalize" }}
+                            id="name"
+                            name="new_name"
+                            variant="outlined"
+                            defaultValue={userName.toUpperCase()}
+                            size="small"
+                            onChange={handleChange}
+                          />
+                        </td>
+                      </tr>
+                      <tr style={{ height: "60px" }}>
+                        <td>
+                          <Typography>Email</Typography>
+                        </td>
+                        <td>
+                          {loading ? (
+                            <p>wait...</p>
+                          ) : (
+                            <TextField
+                              id="email"
+                              name="email"
+                              variant="outlined"
+                              defaultValue={userEmail}
+                              size="small"
+                              sx={{ width: { xs: "15rem", sm: "25rem" } }}
+                              disabled={true}
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      fontSize: "18px",
+                      lineHeight: "16px",
+                      letterSpacing: "1px",
+                      paddingTop: "1rem",
+                      paddingBottom: "1rem",
+                      color: "#ffffff",
+                      backgroundColor: (isChange == true) ? "#FE7860" : "",
+                      textTransform: "capitalize",
+                      width: { xs: "19rem", sm: "30rem" },
+                    }}
+                    type="submit"
+                    onClick={handleSave}
+                    disabled={isChange == false}
+                  >
+                    Save
+                  </Button>
+                </>
+              )}
+            </Stack>)
+              : (<>
+                <Stack
+                  sx={{
+                    mt: { xs: 2, md: 0 },
+                    mb: { xs: 0, md: 0 },
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "#313131",
+                      fontFamily: "Roboto",
+                      fontSize: "2.5rem",
+                      fontStyle: "normal",
+                      fontWeight: 500,
+                      lineHeight: "normal",
+                      mb: 5,
+                    }}
+                  >
+                    About Us
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#313131",
+                      fontFamily: "Roboto",
+                      fontSize: "1.5rem",
+                      fontStyle: "normal",
+                      lineHeight: "normal",
+                      mb: 2,
+                    }}
+                  >
+                    Ways You Can Reach out
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#313131",
+                      fontFamily: "Roboto",
+                      fontSize: "1rem",
+                      fontStyle: "normal",
+                      fontWeight: 500,
+                      lineHeight: "normal",
+                      mb: 5,
+                      textAlign: "center"
+                    }}
+                  >
+                    We’ve got a team ready to help with any issue you may be having
+                  </Typography>
+                  <List sx={{
+                    py: 0,
+                    width: '100%',
+                    maxWidth: 360,
+                    borderRadius: 2,
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    backgroundColor: 'background.paper',
+                  }}>
+                    <ListItem>
+                      <ListItemIcon>
+                        <PhoneIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="+6285150772707" />
+                    </ListItem>
+                    <Divider variant="middle" />
+                    <ListItem>
+                      <ListItemIcon>
+                        <EmailIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="learn_theory_music@gmail.com" />
+                    </ListItem>
+                    <Divider variant="middle" />
+                    <ListItem>
+                      <ListItemIcon>
+                        <BrowseGalleryIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Mon-Fri 10.00am - 08.00pm" />
+                    </ListItem>
+                  </List>
+                </Stack>
+              </>)}
+          </Box>
+        </Stack>
       </Stack>
     </>
   );
